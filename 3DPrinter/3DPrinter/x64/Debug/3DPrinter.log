@@ -1,0 +1,40 @@
+﻿  pch.cpp
+  dllmain.cpp
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(134,16): warning C4101: 'fStatus': unreferenced local variable
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(137,20): warning C4101: 'FeatDefName': unreferenced local variable
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(301,13): warning C4101: 'lCsysDefName1': unreferenced local variable
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(359,10): warning C4101: 'comp_datums': unreferenced local variable
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(371,17): warning C4101: 'comp_path': unreferenced local variable
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(358,10): warning C4101: 'asm_datums': unreferenced local variable
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(374,11): warning C4101: 'Skt_Part': unreferenced local variable
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(367,6): warning C4101: 'i': unreferenced local variable
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(469,11): warning C4101: 'wview_Name': unreferenced local variable
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(618,11): warning C4101: 'wview_Name': unreferenced local variable
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(672,13): warning C4101: 'view': unreferenced local variable
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(740,11): warning C4101: 'wview_Name': unreferenced local variable
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(745,11): warning C4101: 'wview_Name': unreferenced local variable
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(750,11): warning C4101: 'wview_Name': unreferenced local variable
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(792,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\xstring(2765,53): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=char
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\xstring(2621,17): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct_from_iter<wchar_t*,wchar_t*,_Size_type>(_Iter,const _Sent,_Size)' being compiled
+          with
+          [
+              _Size_type=unsigned __int64,
+              _Iter=wchar_t *,
+              _Sent=wchar_t *,
+              _Size=unsigned __int64
+          ]
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(578,18): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\dllmain.cpp(578,18): message : see the first reference to 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string' in 'executeApplyCapUpdateAction'
+     Creating library C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\x64\Debug\3DPrinter.lib and object C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\x64\Debug\3DPrinter.exp
+  3DPrinter.vcxproj -> C:\Users\kmsma\OneDrive\Desktop\Project Details\crowdplat\24-10-2023\3DPrinter\3DPrinter\x64\Debug\3DPrinter.dll
