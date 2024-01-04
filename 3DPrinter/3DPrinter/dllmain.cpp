@@ -5,6 +5,7 @@
 #include <locale>
 #include <string>
 #include <vector>
+#include"VesModelTree.h"
 //#include <iomanip>
 //#include <boost/foreach.hpp>
 //#include "C:\\Users\\kmsma\\Downloads\\windows-cxx-x64\\prebuilds\\windows-cxx-x64\\include\\opencamlib\\stlsurf.hpp"
@@ -587,43 +588,75 @@ bool GetCompFeatureByName(IN ProMdl Mdl, IN string FeatName, OUT vector<ProFeatu
 
 	//outFeat = FeatureVector[FeatName];
 }
+void stringToWString(IN string schar, OUT  wchar_t* wcharout)
+{
+	wstring ch(schar.begin(), schar.end());
+	wcscpy_s(wcharout, ch.size() + 1, ch.c_str());
+}
+ProErr GetParamValue(IN ProMdl Mdl, IN string ParamName, OUT string& ParamVal, bool DoRegen)
+{
+	ProError lErr = PRO_TK_NO_ERROR;
+	if (true == DoRegen)
+		ProSolidRegenerate((ProSolid)Mdl, PRO_REGEN_NO_FLAGS);
 
-void FanOutCreation()
+	ProModelitem lModelItem;
+	lErr = ProMdlToModelitem(ProMdlToSolid(Mdl), &lModelItem);
+	ProName lParameterName;
+	stringToWString(ParamName, lParameterName);
+	ProParameter lParam;
+	lErr = ProParameterInit(&lModelItem, lParameterName, &lParam);
+	ProParamvalue lValue;
+	//lErr = ProParameterValueGet(&lParam, &lValue);  //" "
+	lErr = ProParameterValueWithUnitsGet(&lParam, &lValue, NULL);  //" " " "
+	if (lValue.type == PRO_PARAM_STRING)
+	{
+		WcharToString(lValue.value.s_val, ParamVal);
+	}
+	return lErr;
+
+}
+ProError GroupFeatVisitAction(ProFeature* feature, ProError status, ProAppData appdata)
+{
+	ProFeatStatus fStatus;
+	vector<ProFeature>* pFeatVec = (vector<ProFeature>*)appdata;
+	ProFeattype lFeatType;
+	ProMdl FeatMdl;
+	ProName pGalleryname;
+	string strGalleryName;
+	status = ProFeatureTypeGet(feature, &lFeatType);
+	if (lFeatType == PRO_FEAT_CURVE)
+	{
+		pFeatVec->push_back(*feature);
+	}
+	return PRO_TK_NO_ERROR;
+
+}
+void GetGroupFeatures(ProGroup group, std::vector<ProFeature>& FeatureVector)
 {
 	ProError status;
-	ProMdl CurMdl1;
-	vector<PointData> vectPointData;
-	status = ProMdlCurrentGet(&CurMdl1);
-	vector<ProFeature> vecFeat;
-
-	GetCompFeatureByName(CurMdl1, /*"INTL_MAST_SEC_BTM_SKEL"*/"PRINTED_ELECTRONICS", vecFeat);
-	ProMdl compMdl;
-	status = ProAsmcompMdlGet((ProAsmcomp*)&vecFeat[0], &compMdl);
-	//CreateNewWindow(compMdl);
-	//status = ProSolidRegenerate((ProAssembly)compMdl, PRO_REGEN_NO_FLAGS);
-
-	/*ProMdl activeModel;
-	ProName activeModelName;
-	status = ProMdlCurrentGet(&activeModel);
-	status = ProMdlNameGet(activeModel, activeModelName);*/
-
-	ProAsmcomppath comp_path;
-	ProIdTable c_id_table;
-	c_id_table[0] = -1;
-	status = ProAsmcomppathInit((ProSolid)compMdl, c_id_table, 0, &comp_path);
+	FeatureVector.clear();
+	status = ProGroupFeatureVisit(&group, GroupFeatVisitAction, NULL, (void*)&FeatureVector);
+}
+void LoadUDFWithInputs(const ProMdl& CurMdl1, std::vector<VesModelTree::AsmTreeData>& plateTreeVec_item1, int j, int i, std::string featName, string Udfpath, ProFeature& UDFGrpFeat)
+{
+	ProFeature csoFeat;
+	ProFeature csoFeat1;
+	ProError status;
+	std::vector<PointData> vectPointData;
+	std::vector<ProSelection> UdfInputSel;
 	PointData curPointData = {};
-	curPointData.lAsmPath = comp_path;
-	curPointData.lMdlAssm = compMdl;
-	ProFeature outFeat;
-	ProFeature outFeat1;
-	status = ProFeatureInit((ProSolid)compMdl, 41013, &outFeat);
-	status = ProFeatureInit((ProSolid)compMdl, 41015, &outFeat1);
-	curPointData.lPointFeat = outFeat;
-	vectPointData.push_back(curPointData);
-	curPointData.lPointFeat = outFeat1;
-	vectPointData.push_back(curPointData);
+	curPointData.lAsmPath = plateTreeVec_item1[j].lAsmPath;
+	curPointData.lMdlAssm = plateTreeVec_item1[j].lMdlAssm;
+	GetFeatureByName(plateTreeVec_item1[j].lMdlAssm, featName, csoFeat);
+	curPointData.lPointFeat = csoFeat;
 
-	vector<ProSelection> UdfInputSel;
+	PointData curPointData1 = {};
+	curPointData1.lAsmPath = plateTreeVec_item1[i].lAsmPath;
+	curPointData1.lMdlAssm = plateTreeVec_item1[i].lMdlAssm;
+	GetFeatureByName(plateTreeVec_item1[i].lMdlAssm, featName, csoFeat1);
+	curPointData1.lPointFeat = csoFeat1;
+	vectPointData.push_back(curPointData1);
+	vectPointData.push_back(curPointData);
 	for (size_t k = 0; k < vectPointData.size(); k++)
 	{
 		//Get Point Feature Selection
@@ -634,11 +667,9 @@ void FanOutCreation()
 		UdfInputSel.push_back(pointSelection);
 	}
 
-	string Udfpath = "D:\\Project Details\\crowdplat\\Model for minimum trace route\\Curved UDF\\curve.gph.1";
+	//ProFeature UDFGrpFeat;
 
-	ProFeature UDFGrpFeat;
-
-	if (LoadUDF(compMdl, Udfpath, UdfInputSel, UDFGrpFeat, NULL, PRO_B_FALSE))
+	if (LoadUDF(CurMdl1, Udfpath, UdfInputSel, UDFGrpFeat, NULL, PRO_B_TRUE))
 	{
 		//VecAxisUdfs.push_back(UDFGrpFeat);
 		ProFeature* feats = NULL;
@@ -647,39 +678,95 @@ void FanOutCreation()
 		status = ProArraySizeGet(feats, &FeatSize);
 
 	}
+}
+
+//void LoadUDFWithInputs(const ProMdl& CurMdl1, std::vector<VesModelTree::AsmTreeData>& plateTreeVec_item1, int j, int i, std::string featName, string Udfpath, ProFeature& UDFGrpFeat)
+//{
+//	ProFeature csoFeat;
+//	ProFeature csoFeat1;
+//	ProError status;
+//	std::vector<PointData> vectPointData;
+//	std::vector<ProSelection> UdfInputSel;
+//	PointData curPointData = {};
+//	curPointData.lAsmPath = plateTreeVec_item1[j].lAsmPath;
+//	curPointData.lMdlAssm = plateTreeVec_item1[j].lMdlAssm;
+//	GetFeatureByName(plateTreeVec_item1[j].lMdlAssm, featName, csoFeat);
+//	curPointData.lPointFeat = csoFeat;
+//
+//	PointData curPointData1 = {};
+//	curPointData1.lAsmPath = plateTreeVec_item1[i].lAsmPath;
+//	curPointData1.lMdlAssm = plateTreeVec_item1[i].lMdlAssm;
+//	GetFeatureByName(plateTreeVec_item1[i].lMdlAssm, featName, csoFeat1);
+//	curPointData1.lPointFeat = csoFeat1;
+//	vectPointData.push_back(curPointData);
+//	vectPointData.push_back(curPointData1);
+//	for (size_t k = 0; k < vectPointData.size(); k++)
+//	{
+//		//Get Point Feature Selection
+//		vector<ProGeomitem> vecGeomItems;
+//		GetGeomItems(vectPointData[k].lMdlAssm, vectPointData[k].lPointFeat, vecGeomItems);
+//		ProSelection pointSelection;
+//		status = ProSelectionAlloc(&vectPointData[k].lAsmPath, (ProGeomitem*)&vecGeomItems[0], &pointSelection);
+//		UdfInputSel.push_back(pointSelection);
+//	}
+//
+//	//ProFeature UDFGrpFeat;
+//
+//	if (LoadUDF(CurMdl1, Udfpath, UdfInputSel, UDFGrpFeat, NULL, PRO_B_TRUE))
+//	{
+//		//VecAxisUdfs.push_back(UDFGrpFeat);
+//		ProFeature* feats = NULL;
+//		status = ProGroupFeaturesCollect(&UDFGrpFeat, &feats);//Give only non suppressed entities
+//		int FeatSize;
+//		status = ProArraySizeGet(feats, &FeatSize);
+//
+//	}
+//}
+void ProjectingCurveOnSurface(VesModelTree& mdlObj, const ProMdl& CurMdl1, ProAsmcomppath& comp_path, string PlaneName, string CurveName, ProFeature& UDFGrpFeat, string Udfpath1)
+{
+	ProError status;
 	vector<ProSelection> UdfInputSel1;
 	ProFeature curve;
+	ProFeature curve1;
 	ProFeature frontPlane;
 	vector<ProGeomitem> vecPlaneGeomItems;
 	vector<ProGeomitem> vecCurveGeomItems;
 
-	GetFeatureByName(compMdl, "FRONT", frontPlane);
-	status = ProFeatureInit((ProSolid)compMdl, 41030, &curve);
-	GetGeomItems(compMdl, frontPlane, vecPlaneGeomItems);
-	GetGeomItems(compMdl, curve, vecCurveGeomItems);
+	string childComp1 = "PRINTED_ELECTRONICS";
+	VesModelTree::AsmTreeData  item1;
+	bool res = mdlObj.GetAsmCompTreeData(childComp1, item1);
+	ProGroup group;
+
+	GetFeatureByName(CurMdl1, PlaneName, frontPlane);
+	GetFeatureByName(CurMdl1, CurveName, curve);
+	status = ProFeatureGroupGet(&curve, &group);
+	vector<ProFeature> vecFeat;
+	GetGroupFeatures(group, vecFeat);
+	status = ProFeatureInit((ProSolid)CurMdl1, vecFeat[0].id, &curve);
+	GetGeomItems(CurMdl1, frontPlane, vecPlaneGeomItems);
+	GetGeomItems(CurMdl1, curve, vecCurveGeomItems);
 
 
 	ProSelection SurfSelection1;
 	ProSelection SurfSelection2;
 	ProSelection CurveSelection;
-	status = ProSelectionAlloc(&vectPointData[0].lAsmPath, (ProGeomitem*)&vecPlaneGeomItems[0], &SurfSelection2);
-	status = ProSelectionAlloc(&vectPointData[0].lAsmPath, (ProGeomitem*)&vecCurveGeomItems[0], &CurveSelection);
+	status = ProSelectionAlloc(&comp_path, (ProGeomitem*)&vecPlaneGeomItems[0], &SurfSelection2);
+	status = ProSelectionAlloc(&comp_path, (ProGeomitem*)&vecCurveGeomItems[0], &CurveSelection);
 
 	ProSurface lSurface;
 	ProGeomitemdata* geomData;
 	ProGeomitem comp_datum;
-	status = ProSurfaceInit(compMdl, 1588, &lSurface);
-	status = ProSurfaceToGeomitem((ProSolid)compMdl, lSurface, &comp_datum);
-	status = ProSelectionAlloc(&vectPointData[0].lAsmPath, &comp_datum, &SurfSelection1);
+	status = ProSurfaceInit(item1.lMdlAssm, 41245, &lSurface);
+	status = ProSurfaceToGeomitem((ProSolid)item1.lMdlAssm, lSurface, &comp_datum);
+	status = ProSelectionAlloc(&item1.lAsmPath, &comp_datum, &SurfSelection1);
 
 	UdfInputSel1.push_back(SurfSelection1);
 	UdfInputSel1.push_back(CurveSelection);
 	UdfInputSel1.push_back(SurfSelection2);
 
-	string Udfpath1 = "D:\\Project Details\\crowdplat\\Model for minimum trace route\\Curved UDF\\proj.gph.1";
 	ProFeature UDFGrpFeat1;
 
-	if (LoadUDF(compMdl, Udfpath1, UdfInputSel1, UDFGrpFeat1, NULL, PRO_B_FALSE))
+	if (LoadUDF(CurMdl1, Udfpath1, UdfInputSel1, UDFGrpFeat1, NULL, PRO_B_TRUE))
 	{
 		//VecAxisUdfs.push_back(UDFGrpFeat);
 		ProFeature* feats = NULL;
@@ -688,9 +775,829 @@ void FanOutCreation()
 		status = ProArraySizeGet(feats, &FeatSize);
 
 	}
-	status = ProModelitemHide(&curve);
-
+	status = ProModelitemHide(&vecFeat[0]);
 }
+
+
+void FanOutCreation()
+{
+	ProError status;
+	ProMdl CurMdl1;
+	vector<PointData> vectPointData;
+	vector<PointData> vectCsysData;
+	vector<PointData> vectCsysData1;
+	status = ProMdlCurrentGet(&CurMdl1);
+	vector<ProFeature> vecFeat;
+	ProAsmcomppath comp_path;
+	ProIdTable c_id_table;
+	c_id_table[0] = -1;
+	status = ProAsmcomppathInit((ProSolid)CurMdl1, c_id_table, 0, &comp_path);
+	VesModelTree mdlObj(CurMdl1);
+	vector< VesModelTree::AsmTreeData>  plateTreeVec_item1;
+	VesModelTree::AsmTreeData compHdl;
+	//mdlObj.GetAsmCompTreeData("COMPONENT_2", compHdl); //TODO check if this skelton is same as member sk
+	mdlObj.GetModelTreeComponents(CurMdl1, plateTreeVec_item1);
+	//for (auto currchildComp : plateTreeVec_item1)
+	//{
+	vector<string> createdFanouts;
+	int pintype1 = 0;
+	int pintype2 = 0;
+	int pintype3 = 0;
+	int pintype4 = 0;
+	int pintype5 = 0;
+	for (int i = 0; i < plateTreeVec_item1.size(); i++)
+	{
+		ProMdlType mdltyp;
+		ProMdlTypeGet(plateTreeVec_item1[i].lMdlAssm, &mdltyp);
+		if (mdltyp == ProMdlType::PRO_MDL_PART) {
+			string itemparamval;
+			GetParamValue(plateTreeVec_item1[i].lMdlAssm, "PIN", itemparamval, false);
+			if (itemparamval != "")
+			{
+				for (int j = 0; j < plateTreeVec_item1.size(); j++)
+				{
+					if (plateTreeVec_item1[i].lAsmName != plateTreeVec_item1[j].lAsmName)
+					{
+						ProMdlType mdltyp;
+						ProMdlTypeGet(plateTreeVec_item1[j].lMdlAssm, &mdltyp);
+						if (mdltyp == ProMdlType::PRO_MDL_PART) {
+							string itemparamval1;
+							GetParamValue(plateTreeVec_item1[j].lMdlAssm, "PIN", itemparamval1, false);
+							bool isAlreadyExists = false;
+							if ((std::find(createdFanouts.begin(), createdFanouts.end(), plateTreeVec_item1[i].lAsmName) != createdFanouts.end()) ||
+								(std::find(createdFanouts.begin(), createdFanouts.end(), plateTreeVec_item1[j].lAsmName) != createdFanouts.end()))
+							{
+								isAlreadyExists = true;
+							}
+							if (itemparamval == itemparamval1 && !isAlreadyExists /*/ (plateTreeVec_item1[i].lAsmName == "PIN_1" && plateTreeVec_item1[j].lAsmName == "COMPONENT_3") /*/)
+							{
+								createdFanouts.push_back(plateTreeVec_item1[i].lAsmName);
+								createdFanouts.push_back(plateTreeVec_item1[j].lAsmName);
+
+								vector<ProSelection> UdfInputSel;
+								string featName = "";
+								string Udfpath = "";
+								string PlaneName = "ATOP";
+								string CurveName = "CURVE";
+								if ((plateTreeVec_item1[i].lAsmName == "PIN_1" /*/ && plateTreeVec_item1[j].lAsmName == "COMPONENT_3" /*/) ||
+									(plateTreeVec_item1[i].lAsmName == "PIN_4" /*/ && plateTreeVec_item1[j].lAsmName == "COMPONENT_7" /*/) ||
+									(plateTreeVec_item1[i].lAsmName == "PIN_7") ||
+									(plateTreeVec_item1[i].lAsmName == "PIN_8"))
+								{
+									featName = "PNT0";
+									Udfpath = "D:\\Project Details\\crowdplat\\Updated model\\03-01-2024\\Final asm 03Jan2024\\Final asm 03Jan2024\\UDF\\curve.gph.1";
+									std::stringstream ssDbl;
+									ssDbl << pintype1;
+									string strPinTYpe(ssDbl.str());
+									if (pintype1 == 0)
+										CurveName = "CURVE";
+									else
+										CurveName = "CURVE_" + strPinTYpe;
+									pintype1++;
+								}
+								else if (plateTreeVec_item1[i].lAsmName == "PIN_3")
+								{
+									//Udfpath = "C:\\Users\\MUSRI\\Downloads\\fo_proper_asm_to_Murali\\fo_proper_asm_to_Murali\\UDF\\ob_bend_curve_l.gph.1";
+									Udfpath = "D:\\Project Details\\crowdplat\\Updated model\\03-01-2024\\Final asm 03Jan2024\\Final asm 03Jan2024\\UDF\\cross_curve_l.gph.1";
+									featName = "CS0";
+									std::stringstream ssDbl;
+									ssDbl << pintype2;
+									string strPinTYpe(ssDbl.str());
+									if (pintype2 == 0)
+										CurveName = "CROSS_CURVE_L";
+									else
+										CurveName = "CROSS_CURVE_L_" + strPinTYpe;
+									pintype2++;
+								}
+								else if (plateTreeVec_item1[i].lAsmName == "PIN_5")
+								{
+									Udfpath = "D:\\Project Details\\crowdplat\\Updated model\\03-01-2024\\Final asm 03Jan2024\\Final asm 03Jan2024\\UDF\\ob_bend_curve_l.gph.1";
+									featName = "CS0";
+									std::stringstream ssDbl;
+									ssDbl << pintype4;
+									string strPinTYpe(ssDbl.str());
+									if (pintype4 == 0)
+										CurveName = "OB_BEND_CURVE_L";
+									else
+										CurveName = "OB_BEND_CURVE_L_" + strPinTYpe;
+									pintype4++;
+								}
+								else if (plateTreeVec_item1[i].lAsmName == "PIN_6")
+								{
+									featName = "CS0";
+									Udfpath = "D:\\Project Details\\crowdplat\\Updated model\\03-01-2024\\Final asm 03Jan2024\\Final asm 03Jan2024\\UDF\\ob_bend_curve.gph.1";
+									std::stringstream ssDbl;
+									ssDbl << pintype5;
+									string strPinTYpe(ssDbl.str());
+									if (pintype5 == 0)
+										CurveName = "OB_BEND_CURVE";
+									else
+										CurveName = "OB_BEND_CURVE_" + strPinTYpe;
+									pintype5++;
+								}
+								else
+								{
+									featName = "CS0";
+									//Udfpath = "C:\\Users\\MUSRI\\Downloads\\fo_proper_asm_to_Murali\\fo_proper_asm_to_Murali\\UDF\\ob_bend_curve.gph.1";
+									Udfpath = "D:\\Project Details\\crowdplat\\Updated model\\03-01-2024\\Final asm 03Jan2024\\Final asm 03Jan2024\\UDF\\cross_curve.gph.1";
+									std::stringstream ssDbl;
+									ssDbl << pintype3;
+									string strPinTYpe(ssDbl.str());
+									if (pintype3 == 0)
+										CurveName = "CROSS_CURVE";
+									else
+										CurveName = "CROSS_CURVE_" + strPinTYpe;
+									pintype3++;
+								}
+								ProFeature UDFGrpFeat;
+								LoadUDFWithInputs(CurMdl1, plateTreeVec_item1, j, i, featName, Udfpath, UDFGrpFeat);
+
+
+								string Udfpath1 = "D:\\Project Details\\crowdplat\\Updated model\\03-01-2024\\Final asm 03Jan2024\\Final asm 03Jan2024\\UDF\\proj.gph.1";
+
+								ProjectingCurveOnSurface(mdlObj, CurMdl1, comp_path, PlaneName, CurveName, UDFGrpFeat, Udfpath1);
+								break;
+
+							}
+
+						}
+
+					}
+				}
+			}
+
+		}
+	}
+	createdFanouts.clear();
+}
+
+
+
+//void FanOutCreation()
+//{
+//	ProError status;
+//	ProMdl CurMdl1;
+//	vector<PointData> vectPointData;
+//	vector<PointData> vectCsysData;
+//	vector<PointData> vectCsysData1;
+//	status = ProMdlCurrentGet(&CurMdl1);
+//	vector<ProFeature> vecFeat;
+//	ProAsmcomppath comp_path;
+//	ProIdTable c_id_table;
+//	c_id_table[0] = -1;
+//	status = ProAsmcomppathInit((ProSolid)CurMdl1, c_id_table, 0, &comp_path);
+//	VesModelTree mdlObj(CurMdl1);
+//	vector< VesModelTree::AsmTreeData>  plateTreeVec_item1;
+//	VesModelTree::AsmTreeData compHdl;
+//	//mdlObj.GetAsmCompTreeData("COMPONENT_2", compHdl); //TODO check if this skelton is same as member sk
+//	mdlObj.GetModelTreeComponents(CurMdl1, plateTreeVec_item1);
+//	//for (auto currchildComp : plateTreeVec_item1)
+//	//{
+//	vector<string> createdFanouts;
+//	int pintype1 = 0;
+//	int pintype2 = 0;
+//	int pintype3 = 0;
+//	for (int i = 0; i < plateTreeVec_item1.size(); i++)
+//	{
+//		ProMdlType mdltyp;
+//		ProMdlTypeGet(plateTreeVec_item1[i].lMdlAssm, &mdltyp);
+//		if (mdltyp == ProMdlType::PRO_MDL_PART) {
+//			string itemparamval;
+//			GetParamValue(plateTreeVec_item1[i].lMdlAssm, "PIN", itemparamval, false);
+//			if (itemparamval != "")
+//			{
+//				for (int j = 0; j < plateTreeVec_item1.size(); j++)
+//				{
+//					if (plateTreeVec_item1[i].lAsmName != plateTreeVec_item1[j].lAsmName)
+//					{
+//						ProMdlType mdltyp;
+//						ProMdlTypeGet(plateTreeVec_item1[j].lMdlAssm, &mdltyp);
+//						if (mdltyp == ProMdlType::PRO_MDL_PART) {
+//							string itemparamval1;
+//							GetParamValue(plateTreeVec_item1[j].lMdlAssm, "PIN", itemparamval1, false);
+//							bool isAlreadyExists = false;
+//							if ((std::find(createdFanouts.begin(), createdFanouts.end(), plateTreeVec_item1[i].lAsmName) != createdFanouts.end()) ||
+//								(std::find(createdFanouts.begin(), createdFanouts.end(), plateTreeVec_item1[j].lAsmName) != createdFanouts.end()))
+//							{
+//								isAlreadyExists = true;
+//							}
+//							if (itemparamval == itemparamval1 && !isAlreadyExists /*(plateTreeVec_item1[i].lAsmName =="PIN_1" && plateTreeVec_item1[j].lAsmName=="COMPONENT_3")*/)
+//							{
+//								createdFanouts.push_back(plateTreeVec_item1[i].lAsmName);
+//								createdFanouts.push_back(plateTreeVec_item1[j].lAsmName);
+//
+//								vector<ProSelection> UdfInputSel;
+//								string featName = "";
+//								string Udfpath = "";
+//								string PlaneName = "ATOP";
+//								string CurveName = "CURVE";
+//								if ((plateTreeVec_item1[i].lAsmName == "PIN_1" /*&& plateTreeVec_item1[j].lAsmName == "COMPONENT_3"*/) ||
+//									(plateTreeVec_item1[i].lAsmName == "PIN_4" /*&& plateTreeVec_item1[j].lAsmName == "COMPONENT_7"*/) ||
+//									(plateTreeVec_item1[i].lAsmName == "PIN_7") ||
+//									(plateTreeVec_item1[i].lAsmName == "PIN_8"))
+//								{
+//									featName = "PNT0";
+//									Udfpath = "D:\\Project Details\\crowdplat\\Updated model\\13-12-2023\\proper_asm\\UDF\\curve.gph.1";
+//									std::stringstream ssDbl;
+//									ssDbl << pintype1;
+//									string strPinTYpe(ssDbl.str());
+//									if (pintype1 == 0)
+//										CurveName = "CURVE";
+//									else
+//										CurveName = "CURVE_" + strPinTYpe;
+//									pintype1++;
+//								}
+//								else if ((plateTreeVec_item1[i].lAsmName == "PIN_3") || (plateTreeVec_item1[i].lAsmName == "PIN_5"))
+//								{
+//									Udfpath = "D:\\Project Details\\crowdplat\\Updated model\\13-12-2023\\proper_asm\\UDF\\ob_bend_curve_l.gph.1";
+//									featName = "CS0";
+//									std::stringstream ssDbl;
+//									ssDbl << pintype2;
+//									string strPinTYpe(ssDbl.str());
+//									if (pintype2 == 0)
+//										CurveName = "OB_BEND_CURVE_L";
+//									else
+//										CurveName = "OB_BEND_CURVE_L_" + strPinTYpe;
+//									pintype2++;
+//								}
+//								else
+//								{
+//									featName = "CS0";
+//									Udfpath = "D:\\Project Details\\crowdplat\\Updated model\\13-12-2023\\proper_asm\\UDF\\ob_bend_curve.gph.1";
+//									std::stringstream ssDbl;
+//									ssDbl << pintype3;
+//									string strPinTYpe(ssDbl.str());
+//									if (pintype3 == 0)
+//										CurveName = "OB_BEND_CURVE";
+//									else
+//										CurveName = "OB_BEND_CURVE_" + strPinTYpe;
+//									pintype3++;
+//								}
+//								ProFeature UDFGrpFeat;
+//								LoadUDFWithInputs(CurMdl1, plateTreeVec_item1, j, i, featName, Udfpath, UDFGrpFeat);
+//
+//
+//								string Udfpath1 = "D:\\Project Details\\crowdplat\\Updated model\\13-12-2023\\proper_asm\\UDF\\proj.gph.1";
+//
+//								ProjectingCurveOnSurface(mdlObj, CurMdl1, comp_path, PlaneName, CurveName, UDFGrpFeat, Udfpath1);
+//								break;
+//
+//							}
+//
+//						}
+//
+//					}
+//				}
+//			}
+//
+//		}
+//	}
+//	createdFanouts.clear();
+//}
+
+//void FanOutCreation()
+//{
+//	ProError status;
+//	ProMdl CurMdl1;
+//	vector<PointData> vectPointData;
+//	vector<PointData> vectCsysData;
+//	vector<PointData> vectCsysData1;
+//	status = ProMdlCurrentGet(&CurMdl1);
+//	vector<ProFeature> vecFeat;
+//	ProAsmcomppath comp_path;
+//	ProIdTable c_id_table;
+//	c_id_table[0] = -1;
+//	status = ProAsmcomppathInit((ProSolid)CurMdl1, c_id_table, 0, &comp_path);
+//	VesModelTree mdlObj(CurMdl1);
+//	vector< VesModelTree::AsmTreeData>  plateTreeVec_item1;
+//	VesModelTree::AsmTreeData compHdl;
+//	//mdlObj.GetAsmCompTreeData("COMPONENT_2", compHdl); //TODO check if this skelton is same as member sk
+//	mdlObj.GetModelTreeComponents(CurMdl1, plateTreeVec_item1);
+//	//for (auto currchildComp : plateTreeVec_item1)
+//	//{
+//	for (int i = 0; i < plateTreeVec_item1.size(); i++)
+//	{
+//		ProMdlType mdltyp;
+//		ProMdlTypeGet(plateTreeVec_item1[i].lMdlAssm, &mdltyp);
+//		if (mdltyp == ProMdlType::PRO_MDL_PART) {
+//			string itemparamval;
+//			GetParamValue(plateTreeVec_item1[i].lMdlAssm, "PIN", itemparamval, false);
+//			if (itemparamval != "")
+//			{
+//				for (int j = 0; j < plateTreeVec_item1.size(); j++)
+//				{
+//					if (plateTreeVec_item1[i].lAsmName != plateTreeVec_item1[j].lAsmName)
+//					{
+//						ProMdlType mdltyp;
+//						ProMdlTypeGet(plateTreeVec_item1[j].lMdlAssm, &mdltyp);
+//						if (mdltyp == ProMdlType::PRO_MDL_PART) {
+//							string itemparamval1;
+//							GetParamValue(plateTreeVec_item1[j].lMdlAssm, "PIN", itemparamval1, false);
+//							if (itemparamval == itemparamval1 && (plateTreeVec_item1[i].lAsmName == "PIN_1" && plateTreeVec_item1[j].lAsmName == "COMPONENT_3"))
+//							{
+//								ProFeature csoFeat;
+//								ProFeature csoFeat1;
+//								PointData curPointData = {};
+//								curPointData.lAsmPath = plateTreeVec_item1[j].lAsmPath;
+//								curPointData.lMdlAssm = plateTreeVec_item1[j].lMdlAssm;
+//								GetFeatureByName(plateTreeVec_item1[j].lMdlAssm, "PNT0", csoFeat);
+//								curPointData.lPointFeat = csoFeat;
+//
+//								PointData curPointData1 = {};
+//								curPointData1.lAsmPath = plateTreeVec_item1[i].lAsmPath;
+//								curPointData1.lMdlAssm = plateTreeVec_item1[i].lMdlAssm;
+//								GetFeatureByName(plateTreeVec_item1[i].lMdlAssm, "PNT0", csoFeat1);
+//								curPointData1.lPointFeat = csoFeat1;
+//								vectPointData.push_back(curPointData);
+//								vectPointData.push_back(curPointData1);
+//								vector<ProSelection> UdfInputSel;
+//								for (size_t k = 0; k < vectPointData.size(); k++)
+//								{
+//									//Get Point Feature Selection
+//									vector<ProGeomitem> vecGeomItems;
+//									GetGeomItems(vectPointData[k].lMdlAssm, vectPointData[k].lPointFeat, vecGeomItems);
+//									ProSelection pointSelection;
+//									status = ProSelectionAlloc(&vectPointData[k].lAsmPath, (ProGeomitem*)&vecGeomItems[0], &pointSelection);
+//									UdfInputSel.push_back(pointSelection);
+//								}
+//
+//								string Udfpath = "D:\\Project Details\\crowdplat\\Updated model\\12-12-2023\\fo_proper_asm\\UDF\\curve.gph.1";
+//
+//								ProFeature UDFGrpFeat;
+//
+//								if (LoadUDF(CurMdl1, Udfpath, UdfInputSel, UDFGrpFeat, NULL, PRO_B_TRUE))
+//								{
+//									//VecAxisUdfs.push_back(UDFGrpFeat);
+//									ProFeature* feats = NULL;
+//									status = ProGroupFeaturesCollect(&UDFGrpFeat, &feats);//Give only non suppressed entities
+//									int FeatSize;
+//									status = ProArraySizeGet(feats, &FeatSize);
+//
+//								}
+//								vector<ProSelection> UdfInputSel1;
+//								ProFeature curve;
+//								ProFeature curve1;
+//								ProFeature frontPlane;
+//								vector<ProGeomitem> vecPlaneGeomItems;
+//								vector<ProGeomitem> vecCurveGeomItems;
+//
+//								string childComp1 = "PRINTED_ELECTRONICS";
+//								VesModelTree::AsmTreeData  item1;
+//								bool res = mdlObj.GetAsmCompTreeData(childComp1, item1);
+//								ProGroup group;
+//
+//								GetFeatureByName(CurMdl1, "ATOP", frontPlane);
+//								GetFeatureByName(CurMdl1, "CURVE", curve);
+//								status = ProFeatureGroupGet(&curve, &group);
+//								vector<ProFeature> vecFeat;
+//								GetGroupFeatures(group, vecFeat);
+//								status = ProFeatureInit((ProSolid)CurMdl1, vecFeat[0].id, &curve);
+//								GetGeomItems(CurMdl1, frontPlane, vecPlaneGeomItems);
+//								GetGeomItems(CurMdl1, curve, vecCurveGeomItems);
+//
+//
+//								ProSelection SurfSelection1;
+//								ProSelection SurfSelection2;
+//								ProSelection CurveSelection;
+//								status = ProSelectionAlloc(&comp_path, (ProGeomitem*)&vecPlaneGeomItems[0], &SurfSelection2);
+//								status = ProSelectionAlloc(&comp_path, (ProGeomitem*)&vecCurveGeomItems[0], &CurveSelection);
+//
+//								ProSurface lSurface;
+//								ProGeomitemdata* geomData;
+//								ProGeomitem comp_datum;
+//								status = ProSurfaceInit(item1.lMdlAssm, 41245, &lSurface);
+//								status = ProSurfaceToGeomitem((ProSolid)item1.lMdlAssm, lSurface, &comp_datum);
+//								status = ProSelectionAlloc(&item1.lAsmPath, &comp_datum, &SurfSelection1);
+//
+//								UdfInputSel1.push_back(SurfSelection1);
+//								UdfInputSel1.push_back(CurveSelection);
+//								UdfInputSel1.push_back(SurfSelection2);
+//
+//								string Udfpath1 = "D:\\Project Details\\crowdplat\\Updated model\\12-12-2023\\fo_proper_asm\\UDF\\proj.gph.1";
+//								ProFeature UDFGrpFeat1;
+//
+//								if (LoadUDF(CurMdl1, Udfpath1, UdfInputSel1, UDFGrpFeat1, NULL, PRO_B_TRUE))
+//								{
+//									//VecAxisUdfs.push_back(UDFGrpFeat);
+//									ProFeature* feats = NULL;
+//									status = ProGroupFeaturesCollect(&UDFGrpFeat, &feats);//Give only non suppressed entities
+//									int FeatSize;
+//									status = ProArraySizeGet(feats, &FeatSize);
+//
+//								}
+//								status = ProModelitemHide(&vecFeat[0]);
+//								break;
+//
+//							}
+//							else if (itemparamval == itemparamval1 && (plateTreeVec_item1[i].lAsmName == "PIN_2" && plateTreeVec_item1[j].lAsmName == "COMPONENT_2"))
+//							{
+//								ProFeature csoFeat;
+//								ProFeature csoFeat1;
+//								PointData curCsysPointData = {};
+//								curCsysPointData.lAsmPath = plateTreeVec_item1[j].lAsmPath;
+//								curCsysPointData.lMdlAssm = plateTreeVec_item1[j].lMdlAssm;
+//								GetFeatureByName(plateTreeVec_item1[j].lMdlAssm, "CS0", csoFeat);
+//								curCsysPointData.lPointFeat = csoFeat;
+//
+//								PointData curCsysPointData1 = {};
+//								curCsysPointData1.lAsmPath = plateTreeVec_item1[i].lAsmPath;
+//								curCsysPointData1.lMdlAssm = plateTreeVec_item1[i].lMdlAssm;
+//								GetFeatureByName(plateTreeVec_item1[i].lMdlAssm, "CS0", csoFeat1);
+//								curCsysPointData1.lPointFeat = csoFeat1;
+//
+//								vectCsysData.push_back(curCsysPointData);
+//								vectCsysData.push_back(curCsysPointData1);
+//
+//								vector<ProSelection> UdfInputSel;
+//								for (size_t k = 0; k < vectCsysData.size(); k++)
+//								{
+//									//Get Point Feature Selection
+//									vector<ProGeomitem> vecGeomItems;
+//									GetGeomItems(vectCsysData[k].lMdlAssm, vectCsysData[k].lPointFeat, vecGeomItems);
+//									ProSelection pointSelection;
+//									status = ProSelectionAlloc(&vectCsysData[k].lAsmPath, (ProGeomitem*)&vecGeomItems[0], &pointSelection);
+//									UdfInputSel.push_back(pointSelection);
+//								}
+//
+//								string Udfpath = "D:\\Project Details\\crowdplat\\Updated model\\12-12-2023\\fo_proper_asm\\UDF\\ob_bend_curve.gph.1";
+//
+//								ProFeature UDFGrpFeat;
+//
+//								if (LoadUDF(CurMdl1, Udfpath, UdfInputSel, UDFGrpFeat, NULL, PRO_B_TRUE))
+//								{
+//									//VecAxisUdfs.push_back(UDFGrpFeat);
+//									ProFeature* feats = NULL;
+//									status = ProGroupFeaturesCollect(&UDFGrpFeat, &feats);//Give only non suppressed entities
+//									int FeatSize;
+//									status = ProArraySizeGet(feats, &FeatSize);
+//
+//								}
+//								vector<ProSelection> UdfInputSel1;
+//								ProFeature curve;
+//								ProFeature frontPlane;
+//								vector<ProGeomitem> vecPlaneGeomItems;
+//								vector<ProGeomitem> vecCurveGeomItems;
+//
+//								string childComp1 = "PRINTED_ELECTRONICS";
+//								VesModelTree::AsmTreeData  item1;
+//								bool res = mdlObj.GetAsmCompTreeData(childComp1, item1);
+//								ProGroup group;
+//
+//								GetFeatureByName(CurMdl1, "ATOP", frontPlane);
+//								GetFeatureByName(CurMdl1, "OB_BEND_CURVE", curve);
+//								status = ProFeatureGroupGet(&curve, &group);
+//								vector<ProFeature> vecFeat;
+//								GetGroupFeatures(group, vecFeat);
+//								status = ProFeatureInit((ProSolid)CurMdl1, vecFeat[0].id, &curve);
+//								GetGeomItems(CurMdl1, frontPlane, vecPlaneGeomItems);
+//								GetGeomItems(CurMdl1, curve, vecCurveGeomItems);
+//
+//
+//								ProSelection SurfSelection1;
+//								ProSelection SurfSelection2;
+//								ProSelection CurveSelection;
+//								status = ProSelectionAlloc(&comp_path, (ProGeomitem*)&vecPlaneGeomItems[0], &SurfSelection2);
+//								status = ProSelectionAlloc(&comp_path, (ProGeomitem*)&vecCurveGeomItems[0], &CurveSelection);
+//
+//								ProSurface lSurface;
+//								ProGeomitemdata* geomData;
+//								ProGeomitem comp_datum;
+//								status = ProSurfaceInit(item1.lMdlAssm, 41245, &lSurface);
+//								status = ProSurfaceToGeomitem((ProSolid)item1.lMdlAssm, lSurface, &comp_datum);
+//								status = ProSelectionAlloc(&item1.lAsmPath, &comp_datum, &SurfSelection1);
+//
+//								UdfInputSel1.push_back(SurfSelection1);
+//								UdfInputSel1.push_back(CurveSelection);
+//								UdfInputSel1.push_back(SurfSelection2);
+//
+//								string Udfpath1 = "D:\\Project Details\\crowdplat\\Updated model\\12-12-2023\\fo_proper_asm\\UDF\\proj.gph.1";
+//								ProFeature UDFGrpFeat1;
+//
+//								if (LoadUDF(CurMdl1, Udfpath1, UdfInputSel1, UDFGrpFeat1, NULL, PRO_B_TRUE))
+//								{
+//									//VecAxisUdfs.push_back(UDFGrpFeat);
+//									ProFeature* feats = NULL;
+//									status = ProGroupFeaturesCollect(&UDFGrpFeat, &feats);//Give only non suppressed entities
+//									int FeatSize;
+//									status = ProArraySizeGet(feats, &FeatSize);
+//
+//								}
+//								status = ProModelitemHide(&vecFeat[0]);
+//								break;
+//
+//							}
+//
+//							else if (itemparamval == itemparamval1 && (plateTreeVec_item1[i].lAsmName == "PIN_3" && plateTreeVec_item1[j].lAsmName == "COMPONENT_4"))
+//							{
+//								ProFeature csoFeat;
+//								ProFeature csoFeat1;
+//								PointData curCsysPointData = {};
+//								curCsysPointData.lAsmPath = plateTreeVec_item1[j].lAsmPath;
+//								curCsysPointData.lMdlAssm = plateTreeVec_item1[j].lMdlAssm;
+//								GetFeatureByName(plateTreeVec_item1[j].lMdlAssm, "CS0", csoFeat);
+//								curCsysPointData.lPointFeat = csoFeat;
+//
+//								PointData curCsysPointData1 = {};
+//								curCsysPointData1.lAsmPath = plateTreeVec_item1[i].lAsmPath;
+//								curCsysPointData1.lMdlAssm = plateTreeVec_item1[i].lMdlAssm;
+//								GetFeatureByName(plateTreeVec_item1[i].lMdlAssm, "CS0", csoFeat1);
+//								curCsysPointData1.lPointFeat = csoFeat1;
+//
+//								vectCsysData1.push_back(curCsysPointData);
+//								vectCsysData1.push_back(curCsysPointData1);
+//
+//								vector<ProSelection> UdfInputSel;
+//								for (size_t k = 0; k < vectCsysData1.size(); k++)
+//								{
+//									//Get Point Feature Selection
+//									vector<ProGeomitem> vecGeomItems;
+//									GetGeomItems(vectCsysData1[k].lMdlAssm, vectCsysData1[k].lPointFeat, vecGeomItems);
+//									ProSelection pointSelection;
+//									status = ProSelectionAlloc(&vectCsysData1[k].lAsmPath, (ProGeomitem*)&vecGeomItems[0], &pointSelection);
+//									UdfInputSel.push_back(pointSelection);
+//								}
+//
+//								string Udfpath = "D:\\Project Details\\crowdplat\\Updated model\\12-12-2023\\fo_proper_asm\\UDF\\ob_bend_curve_l.gph.1";
+//
+//								ProFeature UDFGrpFeat;
+//
+//								if (LoadUDF(CurMdl1, Udfpath, UdfInputSel, UDFGrpFeat, NULL, PRO_B_TRUE))
+//								{
+//									//VecAxisUdfs.push_back(UDFGrpFeat);
+//									ProFeature* feats = NULL;
+//									status = ProGroupFeaturesCollect(&UDFGrpFeat, &feats);//Give only non suppressed entities
+//									int FeatSize;
+//									status = ProArraySizeGet(feats, &FeatSize);
+//
+//								}
+//
+//								vector<ProSelection> UdfInputSel1;
+//								ProFeature curve;
+//								ProFeature frontPlane;
+//								vector<ProGeomitem> vecPlaneGeomItems;
+//								vector<ProGeomitem> vecCurveGeomItems;
+//
+//								string childComp1 = "PRINTED_ELECTRONICS";
+//								VesModelTree::AsmTreeData  item1;
+//								bool res = mdlObj.GetAsmCompTreeData(childComp1, item1);
+//								ProGroup group;
+//
+//								GetFeatureByName(CurMdl1, "ATOP", frontPlane);
+//								GetFeatureByName(CurMdl1, "OB_BEND_CURVE_L", curve);
+//								status = ProFeatureGroupGet(&curve, &group);
+//								vector<ProFeature> vecFeat;
+//								GetGroupFeatures(group, vecFeat);
+//								status = ProFeatureInit((ProSolid)CurMdl1, vecFeat[0].id, &curve);
+//								GetGeomItems(CurMdl1, frontPlane, vecPlaneGeomItems);
+//								GetGeomItems(CurMdl1, curve, vecCurveGeomItems);
+//
+//
+//								ProSelection SurfSelection1;
+//								ProSelection SurfSelection2;
+//								ProSelection CurveSelection;
+//								status = ProSelectionAlloc(&comp_path, (ProGeomitem*)&vecPlaneGeomItems[0], &SurfSelection2);
+//								status = ProSelectionAlloc(&comp_path, (ProGeomitem*)&vecCurveGeomItems[0], &CurveSelection);
+//
+//								ProSurface lSurface;
+//								ProGeomitemdata* geomData;
+//								ProGeomitem comp_datum;
+//								status = ProSurfaceInit(item1.lMdlAssm, 41245, &lSurface);
+//								status = ProSurfaceToGeomitem((ProSolid)item1.lMdlAssm, lSurface, &comp_datum);
+//								status = ProSelectionAlloc(&item1.lAsmPath, &comp_datum, &SurfSelection1);
+//
+//								UdfInputSel1.push_back(SurfSelection1);
+//								UdfInputSel1.push_back(CurveSelection);
+//								UdfInputSel1.push_back(SurfSelection2);
+//
+//								string Udfpath1 = "D:\\Project Details\\crowdplat\\Updated model\\12-12-2023\\fo_proper_asm\\UDF\\proj.gph.1";
+//								ProFeature UDFGrpFeat1;
+//
+//								if (LoadUDF(CurMdl1, Udfpath1, UdfInputSel1, UDFGrpFeat1, NULL, PRO_B_TRUE))
+//								{
+//									//VecAxisUdfs.push_back(UDFGrpFeat);
+//									ProFeature* feats = NULL;
+//									status = ProGroupFeaturesCollect(&UDFGrpFeat, &feats);//Give only non suppressed entities
+//									int FeatSize;
+//									status = ProArraySizeGet(feats, &FeatSize);
+//
+//								}
+//								status = ProModelitemHide(&vecFeat[0]);
+//								break;
+//
+//							}
+//						}
+//
+//					}
+//				}
+//			}
+//			/*if (VesUtility::_String::StringStartsWith(itemparamval, ITEMName)) {
+//				platepartname = currchildComp.lAsmName;
+//				break;*/
+//				//}
+//
+//		}
+//	}
+//	//}
+//
+//	//GetCompFeatureByName(CurMdl1, /*"INTL_MAST_SEC_BTM_SKEL"*/"PRINTED_ELECTRONICS", vecFeat);
+//	//ProMdl compMdl;
+//	//status = ProAsmcompMdlGet((ProAsmcomp*)&vecFeat[0], &compMdl);
+//	////CreateNewWindow(compMdl);
+//	////status = ProSolidRegenerate((ProAssembly)compMdl, PRO_REGEN_NO_FLAGS);
+//
+//	///*ProMdl activeModel;
+//	//ProName activeModelName;
+//	//status = ProMdlCurrentGet(&activeModel);
+//	//status = ProMdlNameGet(activeModel, activeModelName);*/
+//
+//	//ProAsmcomppath comp_path;
+//	//ProIdTable c_id_table;
+//	//c_id_table[0] = -1;
+//	//status = ProAsmcomppathInit((ProSolid)compMdl, c_id_table, 0, &comp_path);
+//	//PointData curPointData = {};
+//	//curPointData.lAsmPath = comp_path;
+//	//curPointData.lMdlAssm = compMdl;
+//	//ProFeature outFeat;
+//	//ProFeature outFeat1;
+//	//status = ProFeatureInit((ProSolid)compMdl, 41013, &outFeat);
+//	//status = ProFeatureInit((ProSolid)compMdl, 41015, &outFeat1);
+//	//curPointData.lPointFeat = outFeat;
+//	//vectPointData.push_back(curPointData);
+//	//curPointData.lPointFeat = outFeat1;
+//	//vectPointData.push_back(curPointData);
+//
+//	//vector<ProSelection> UdfInputSel;
+//	//for (size_t k = 0; k < vectPointData.size(); k++)
+//	//{
+//	//	//Get Point Feature Selection
+//	//	vector<ProGeomitem> vecGeomItems;
+//	//	GetGeomItems(vectPointData[k].lMdlAssm, vectPointData[k].lPointFeat, vecGeomItems);
+//	//	ProSelection pointSelection;
+//	//	status = ProSelectionAlloc(&vectPointData[k].lAsmPath, (ProGeomitem*)&vecGeomItems[0], &pointSelection);
+//	//	UdfInputSel.push_back(pointSelection);
+//	//}
+//
+//	
+//
+//	ProFeature UDFGrpFeat;
+//
+//	//if (LoadUDF(compMdl, Udfpath, UdfInputSel, UDFGrpFeat, NULL, PRO_B_FALSE))
+//	//{
+//	//	//VecAxisUdfs.push_back(UDFGrpFeat);
+//	//	ProFeature* feats = NULL;
+//	//	status = ProGroupFeaturesCollect(&UDFGrpFeat, &feats);//Give only non suppressed entities
+//	//	int FeatSize;
+//	//	status = ProArraySizeGet(feats, &FeatSize);
+//
+//	//}
+//	//vector<ProSelection> UdfInputSel1;
+//	//ProFeature curve;
+//	//ProFeature frontPlane;
+//	//vector<ProGeomitem> vecPlaneGeomItems;
+//	//vector<ProGeomitem> vecCurveGeomItems;
+//
+//	//GetFeatureByName(compMdl, "FRONT", frontPlane);
+//	//status = ProFeatureInit((ProSolid)compMdl, 41030, &curve);
+//	//GetGeomItems(compMdl, frontPlane, vecPlaneGeomItems);
+//	//GetGeomItems(compMdl, curve, vecCurveGeomItems);
+//
+//
+//	//ProSelection SurfSelection1;
+//	//ProSelection SurfSelection2;
+//	//ProSelection CurveSelection;
+//	//status = ProSelectionAlloc(&vectPointData[0].lAsmPath, (ProGeomitem*)&vecPlaneGeomItems[0], &SurfSelection2);
+//	//status = ProSelectionAlloc(&vectPointData[0].lAsmPath, (ProGeomitem*)&vecCurveGeomItems[0], &CurveSelection);
+//
+//	//ProSurface lSurface;
+//	//ProGeomitemdata* geomData;
+//	//ProGeomitem comp_datum;
+//	//status = ProSurfaceInit(compMdl, 1588, &lSurface);
+//	//status = ProSurfaceToGeomitem((ProSolid)compMdl, lSurface, &comp_datum);
+//	//status = ProSelectionAlloc(&vectPointData[0].lAsmPath, &comp_datum, &SurfSelection1);
+//	//
+//	//UdfInputSel1.push_back(SurfSelection1);
+//	//UdfInputSel1.push_back(CurveSelection);
+//	//UdfInputSel1.push_back(SurfSelection2);
+//
+//	//string Udfpath1 = "C:\\Users\\MUSRI\\Downloads\\FO_curve_proj_27Nov23\\FO_curve_proj_27Nov23\\proj.gph.1";
+//	//ProFeature UDFGrpFeat1;
+//
+//	//if (LoadUDF(compMdl, Udfpath1, UdfInputSel1, UDFGrpFeat1, NULL, PRO_B_FALSE))
+//	//{
+//	//	//VecAxisUdfs.push_back(UDFGrpFeat);
+//	//	ProFeature* feats = NULL;
+//	//	status = ProGroupFeaturesCollect(&UDFGrpFeat, &feats);//Give only non suppressed entities
+//	//	int FeatSize;
+//	//	status = ProArraySizeGet(feats, &FeatSize);
+//
+//	//}
+//	//status = ProModelitemHide(&curve);
+//
+//}
+
+//void FanOutCreation()
+//{
+//	ProError status;
+//	ProMdl CurMdl1;
+//	vector<PointData> vectPointData;
+//	status = ProMdlCurrentGet(&CurMdl1);
+//	vector<ProFeature> vecFeat;
+//
+//	GetCompFeatureByName(CurMdl1, /*"INTL_MAST_SEC_BTM_SKEL"*/"PRINTED_ELECTRONICS", vecFeat);
+//	ProMdl compMdl;
+//	status = ProAsmcompMdlGet((ProAsmcomp*)&vecFeat[0], &compMdl);
+//	//CreateNewWindow(compMdl);
+//	//status = ProSolidRegenerate((ProAssembly)compMdl, PRO_REGEN_NO_FLAGS);
+//
+//	/*ProMdl activeModel;
+//	ProName activeModelName;
+//	status = ProMdlCurrentGet(&activeModel);
+//	status = ProMdlNameGet(activeModel, activeModelName);*/
+//
+//	ProAsmcomppath comp_path;
+//	ProIdTable c_id_table;
+//	c_id_table[0] = -1;
+//	status = ProAsmcomppathInit((ProSolid)compMdl, c_id_table, 0, &comp_path);
+//	PointData curPointData = {};
+//	curPointData.lAsmPath = comp_path;
+//	curPointData.lMdlAssm = compMdl;
+//	ProFeature outFeat;
+//	ProFeature outFeat1;
+//	status = ProFeatureInit((ProSolid)compMdl, 41013, &outFeat);
+//	status = ProFeatureInit((ProSolid)compMdl, 41015, &outFeat1);
+//	curPointData.lPointFeat = outFeat;
+//	vectPointData.push_back(curPointData);
+//	curPointData.lPointFeat = outFeat1;
+//	vectPointData.push_back(curPointData);
+//
+//	vector<ProSelection> UdfInputSel;
+//	for (size_t k = 0; k < vectPointData.size(); k++)
+//	{
+//		//Get Point Feature Selection
+//		vector<ProGeomitem> vecGeomItems;
+//		GetGeomItems(vectPointData[k].lMdlAssm, vectPointData[k].lPointFeat, vecGeomItems);
+//		ProSelection pointSelection;
+//		status = ProSelectionAlloc(&vectPointData[k].lAsmPath, (ProGeomitem*)&vecGeomItems[0], &pointSelection);
+//		UdfInputSel.push_back(pointSelection);
+//	}
+//
+//	string Udfpath = "D:\\Project Details\\crowdplat\\Model for minimum trace route\\Curved UDF\\curve.gph.1";
+//
+//	ProFeature UDFGrpFeat;
+//
+//	if (LoadUDF(compMdl, Udfpath, UdfInputSel, UDFGrpFeat, NULL, PRO_B_FALSE))
+//	{
+//		//VecAxisUdfs.push_back(UDFGrpFeat);
+//		ProFeature* feats = NULL;
+//		status = ProGroupFeaturesCollect(&UDFGrpFeat, &feats);//Give only non suppressed entities
+//		int FeatSize;
+//		status = ProArraySizeGet(feats, &FeatSize);
+//
+//	}
+//	vector<ProSelection> UdfInputSel1;
+//	ProFeature curve;
+//	ProFeature frontPlane;
+//	vector<ProGeomitem> vecPlaneGeomItems;
+//	vector<ProGeomitem> vecCurveGeomItems;
+//
+//	GetFeatureByName(compMdl, "FRONT", frontPlane);
+//	status = ProFeatureInit((ProSolid)compMdl, 41030, &curve);
+//	GetGeomItems(compMdl, frontPlane, vecPlaneGeomItems);
+//	GetGeomItems(compMdl, curve, vecCurveGeomItems);
+//
+//
+//	ProSelection SurfSelection1;
+//	ProSelection SurfSelection2;
+//	ProSelection CurveSelection;
+//	status = ProSelectionAlloc(&vectPointData[0].lAsmPath, (ProGeomitem*)&vecPlaneGeomItems[0], &SurfSelection2);
+//	status = ProSelectionAlloc(&vectPointData[0].lAsmPath, (ProGeomitem*)&vecCurveGeomItems[0], &CurveSelection);
+//
+//	ProSurface lSurface;
+//	ProGeomitemdata* geomData;
+//	ProGeomitem comp_datum;
+//	status = ProSurfaceInit(compMdl, 1588, &lSurface);
+//	status = ProSurfaceToGeomitem((ProSolid)compMdl, lSurface, &comp_datum);
+//	status = ProSelectionAlloc(&vectPointData[0].lAsmPath, &comp_datum, &SurfSelection1);
+//
+//	UdfInputSel1.push_back(SurfSelection1);
+//	UdfInputSel1.push_back(CurveSelection);
+//	UdfInputSel1.push_back(SurfSelection2);
+//
+//	string Udfpath1 = "D:\\Project Details\\crowdplat\\Model for minimum trace route\\Curved UDF\\proj.gph.1";
+//	ProFeature UDFGrpFeat1;
+//
+//	if (LoadUDF(compMdl, Udfpath1, UdfInputSel1, UDFGrpFeat1, NULL, PRO_B_FALSE))
+//	{
+//		//VecAxisUdfs.push_back(UDFGrpFeat);
+//		ProFeature* feats = NULL;
+//		status = ProGroupFeaturesCollect(&UDFGrpFeat, &feats);//Give only non suppressed entities
+//		int FeatSize;
+//		status = ProArraySizeGet(feats, &FeatSize);
+//
+//	}
+//	status = ProModelitemHide(&curve);
+//
+//}
 //void FanOutCreation()
 //{
 //
@@ -1040,11 +1947,7 @@ void AssembleModel(string modelPath, /*string mdlName,*/string mdlName, ProFeatu
 	WindowFit();
 	lErrCode = ProWindowActivate(iWindId);
 }
-void stringToWString(IN string schar, OUT  wchar_t* wcharout)
-{
-	wstring ch(schar.begin(), schar.end());
-	wcscpy_s(wcharout, ch.size() + 1, ch.c_str());
-}
+
 bool SetParamValue(IN ProMdl Mdl, IN string ParamName, IN double ParamVal)
 {
 	ProError lErr = PRO_TK_NO_ERROR;
@@ -1063,8 +1966,8 @@ bool SetParamValue(IN ProMdl Mdl, IN string ParamName, IN double ParamVal)
 	lValue.type = PRO_PARAM_DOUBLE;
 	lValue.value.d_val = ParamVal;
 
-	//lErr = ProParameterValueSet(&lParam, &lValue);  //Creo7
-	lErr = ProParameterValueWithUnitsSet(&lParam, &lValue, NULL);  //creo9 navku
+	//lErr = ProParameterValueSet(&lParam, &lValue);  //" "
+	lErr = ProParameterValueWithUnitsSet(&lParam, &lValue, NULL);  //" " " "
 	if (lErr == PRO_TK_NO_ERROR)
 	{
 		lErr = ProSolidRegenerate((ProSolid)Mdl, PRO_REGEN_NO_FLAGS);
@@ -1703,7 +2606,7 @@ char* stringToChar(string strValue)
 }
 void Create1()
 {
-	FanOutCreation(); 
+	FanOutCreation();
 
 }
 
@@ -1913,9 +2816,9 @@ void Create1()
 
 void Tessellate()
 {
-   //sample();
+	//sample();
 }
-	
+
 
 
 
