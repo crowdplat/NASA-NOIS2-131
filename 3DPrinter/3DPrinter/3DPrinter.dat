@@ -1,7 +1,6 @@
-
 NAME PRINTER
-EXEC_FILE C:\Murali\My Projects\3DPrinter\x64\Debug\3DPrinter.dll
-TEXT_DIR C:\Murali\My Projects\3DPrinter\x64\Debug\Text
+EXEC_FILE D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\x64\Debug\3DPrinter.dll
+TEXT_DIR D:\Project Details\crowdplat\NASA-CREO\3DPrinter\text
 STARTUP dll
 allow_stop TRUE
 END
