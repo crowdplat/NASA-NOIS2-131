@@ -21,3 +21,11 @@ Template Tool Tip
 Tag
 Tag
 #########################
+
+update_bondpad_pb_lbl
+Update Bondpad
+#########################
+
+update_bondpad_pb_tooltip
+Click to update the Bondpad
+#########################

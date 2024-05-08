@@ -100,6 +100,7 @@
     (Components
         (PushButton pb_1)
         (PushButton pb_2)
+        (PushButton pb_3)
     )
     (Resources
         (pb_1.Bitmap "bondpad.png")
@@ -118,9 +119,18 @@
         (pb_2.TopOffset 0)
         (pb_2.BottomOffset 0)
         (pb_2.LeftOffset 3)
-        (pb_2.RightOffset 0)
+        (pb_2.RightOffset 4)
         (pb_2.ButtonAlignment 5531)
         (pb_2.Label "Bondpad")
+        (pb_3.Bitmap "question.png")
+        (pb_3.AttachLeft True)
+        (pb_3.Resizeable True)
+        (pb_3.TopOffset 0)
+        (pb_3.BottomOffset 0)
+        (pb_3.LeftOffset 3)
+        (pb_3.RightOffset 0)
+        (pb_3.ButtonAlignment 5531)
+        (pb_3.Label "Update Bondpad")
         (.AttachLeft True)
         (.AttachRight True)
         (.AttachTop True)
@@ -132,8 +142,8 @@
         (.Layout
             (Grid
                 (Rows 0)
-                (Cols 0 0)
-                pb_1 pb_2
+                (Cols 0 0 0)
+                pb_1 pb_2 pb_3
             )
         )
     )

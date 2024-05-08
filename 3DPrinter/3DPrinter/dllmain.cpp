@@ -13,11 +13,17 @@ ProError CreateMenuItemAndAction()
 	uiCmdCmdId cmd_id1;
 	wchar_t* msgfil = L"Message.txt";
 	ProFileName FileName = L"resource.txt";
-	uiCmdCmdId lCmd;
+	uiCmdCmdId cmdPlaceTemplates, cmdModifyBondpad;
 
 	lErr = ProMenubarMenuAdd("TADDll_Menu", "TADDll_Menu", "Help", PRO_B_TRUE, FileName);
-	lErr = ProCmdActionAdd("Action", (uiCmdCmdActFn)Create, uiProeImmediate, NULL, PRO_B_FALSE, PRO_B_FALSE, &lCmd);
-	lErr = ProMenubarmenuPushbuttonAdd("TADDll_Menu", "TADDll_PushButton", "Template_PushButton", "Template_ToolTip", NULL, PRO_B_TRUE, lCmd, FileName);
+	lErr = ProCmdActionAdd("place_templates_action", (uiCmdCmdActFn)Create, uiProeImmediate, NULL, PRO_B_FALSE, PRO_B_FALSE, &cmdPlaceTemplates);
+	lErr = ProMenubarmenuPushbuttonAdd("TADDll_Menu", "TADDll_PushButton", "Template_PushButton", "Template_ToolTip", NULL, PRO_B_TRUE, cmdPlaceTemplates, FileName);
+
+	lErr = ProCmdActionAdd("update_bondpad_action", (uiCmdCmdActFn)bondPadModifyAction, uiProeImmediate, NULL, PRO_B_FALSE, PRO_B_FALSE, &cmdModifyBondpad);
+	lErr = ProMenubarmenuPushbuttonAdd("TADDll_Menu", "update_bondpad_pb", "update_bondpad_pb_lbl", "update_bondpad_pb_tooltip", NULL, PRO_B_TRUE, cmdModifyBondpad, FileName);
+
+
+	//lErr = ProNotificationSet(PRO_FEATURE_CREATE_POST, (ProFunction)mirrorFeatCreatePostAction);
 
 	return lErr;
 }
@@ -33,6 +39,7 @@ void Create()
 		lErr = ProUIPushbuttonActivateActionSet(mainDialog, pb_1, (ProUIAction)executeBondpadPbAction, NULL);
 		lErr = ProUIPushbuttonActivateActionSet(mainDialog, pb_2, (ProUIAction)executeResistorBondpadPbAction, NULL);
 		lErr = ProUIPushbuttonActivateActionSet(mainDialog, pb_fanout, (ProUIAction)executeFanoutPbAction, NULL);
+		lErr = ProUIPushbuttonActivateActionSet(mainDialog, pb_3, (ProUIAction)bondPadModifyAction, NULL);
 		lErr = ProUIPushbuttonActivateActionSet(mainDialog, closebtn, closeMYdialog, NULL);
 		lErr = ProUIDialogCloseActionSet(mainDialog, closeMYdialog, NULL);
 		int stat = -1;
@@ -56,19 +63,21 @@ ProError executeBondpadPbAction(char* dialog, char* component, ProAppData appdat
 	ProUdfdata UdfData = NULL;
 	lErr = ProUdfdataAlloc(&UdfData);
 	ProPath UdfFilePath;
-	char* bondpadUdfpath = "C:\\Users\\venki\\Downloads\\3DPrinter (28)\\3DPrinter (28)\\3DPrinter\\text\\UDF_LATEST\\bondpad_placement_with_dims.gph.1";
-	//char* bondpadUdfpath = "C:\\Users\\venki\\Downloads\\3DPrinter (28)\\3DPrinter (28)\\3DPrinter\\text\\UDF_LATEST\\bondpad_placement_udf.gph.1";
+	char* bondpadUdfpath = "D:\\Project Details\\crowdplat\\NASA-CREO\\3DPrinter\\text\\UDF_LATEST\\bondpad_placement_with_dims.gph.1";
+	//char* bondpadUdfpath = "D:\\Project Details\\crowdplat\\NASA-CREO\\3DPrinter\\text\\UDF_LATEST\\bondpad_placement_udf.gph.1";
 
 	status = ProUIDialogAboveactivewindowSet(paramsDialog, PRO_B_FALSE);
 	status = ProUIPushbuttonActivateActionSet(paramsDialog, okbtn, placeBondpadAction, (ProAppData)bondpadUdfpath);
 	status = ProUIPushbuttonActivateActionSet(paramsDialog, closebtn, closeMYdialog, NULL);
 	status = ProUIDialogCloseActionSet(paramsDialog, closeMYdialog, NULL);
-	status = ProUILabelHide(paramsDialog, "offset_x_lbl");
+	/*status = ProUILabelHide(paramsDialog, "offset_x_lbl");
 	status = ProUIInputpanelHide(paramsDialog, ip_x_ofst);
 	status = ProUILabelHide(paramsDialog, "offset_y_lbl");
 	status = ProUIInputpanelHide(paramsDialog, ip_y_ofst);
 	status = ProUILabelHide(paramsDialog, "fanout_boundary_lbl");
-	status = ProUIInputpanelHide(paramsDialog, ip_fanout_boundary);
+	status = ProUIInputpanelHide(paramsDialog, ip_trace_margin);*/
+	//status = ProUILayoutHide(paramsDialog, layout_fanout_attributes);
+	//status = ProUILayoutHide(paramsDialog, layout_clearance);
 
 	string sBondpadUdfpath = string(bondpadUdfpath);
 	ProStringToWstring(UdfFilePath, (char*)sBondpadUdfpath.c_str());
@@ -121,8 +130,8 @@ ProError executeResistorBondpadPbAction(char* dialog, char* component, ProAppDat
 	bool isCreatedUDF = false;
 	ProUdfdata UdfData = NULL;
 	ProPath UdfFilePath;
-	char* bondpadUdfpath = "C:\\Users\\venki\\Downloads\\3DPrinter (28)\\3DPrinter (28)\\3DPrinter\\text\\UDF_LATEST\\bondpad_placement_with_dims.gph.1";
-	//char* bondpadUdfpath = "C:\\Users\\venki\\Downloads\\3DPrinter (28)\\3DPrinter (28)\\3DPrinter\\text\\UDF_LATEST\\bondpad_placement_udf.gph.1";
+	char* bondpadUdfpath = "D:\\Project Details\\crowdplat\\NASA-CREO\\3DPrinter\\text\\UDF_LATEST\\bondpad_placement_with_dims.gph.1";
+	//char* bondpadUdfpath = "D:\\Project Details\\crowdplat\\NASA-CREO\\3DPrinter\\text\\UDF_LATEST\\bondpad_placement_udf.gph.1";
 
 	status = ProUIDialogCreate(paramsDialog, paramsDialog);
 	if (status != PRO_TK_NO_ERROR)
@@ -134,10 +143,12 @@ ProError executeResistorBondpadPbAction(char* dialog, char* component, ProAppDat
 	status = ProUIPushbuttonActivateActionSet(paramsDialog, okbtn, placeBondpadAction2, (ProAppData)bondpadUdfpath);
 	status = ProUIPushbuttonActivateActionSet(paramsDialog, closebtn, closeMYdialog, NULL);
 	status = ProUIDialogCloseActionSet(paramsDialog, closeMYdialog, NULL);
-	status = ProUILabelHide(paramsDialog, "offset_x_lbl");
+	/*status = ProUILabelHide(paramsDialog, "offset_x_lbl");
 	status = ProUIInputpanelHide(paramsDialog, "offset_x_ip");
 	status = ProUILabelHide(paramsDialog, "offset_y_lbl");
-	status = ProUIInputpanelHide(paramsDialog, "offset_y_ip");
+	status = ProUIInputpanelHide(paramsDialog, "offset_y_ip");*/
+	//status = ProUILayoutHide(paramsDialog, layout_fanout_attributes);
+	//status = ProUILayoutHide(paramsDialog, layout_clearance);
 
 	string sBondpadUdfpath = string(bondpadUdfpath);
 	ProStringToWstring(UdfFilePath, (char*)sBondpadUdfpath.c_str());
@@ -208,6 +219,7 @@ ProError executeFanoutPbAction(char* dialog, char* component, ProAppData appdata
 	status = ProUILabelHide(paramsDialog, "height_lbl");
 	status = ProUILabelHide(paramsDialog, "height_units");
 	status = ProUIInputpanelHide(paramsDialog, "height_ip");
+	status = ProUILayoutHide(paramsDialog, "desc_layout");
 
 	/*string sOffsetCurveUDFpath = string(offsetCurveUDFpath);
 	ProStringToWstring(UdfFilePath, (char*)sOffsetCurveUDFpath.c_str());
@@ -260,7 +272,7 @@ int placeCurveAction(char* dialog, char* component, ProAppData appdata)
 
 	ProIdTable c_id_table;
 	c_id_table[0] = -1;
-	char* offsetCurveUDFpath = "C:\\Users\\venki\\Downloads\\3DPrinter (28)\\3DPrinter (28)\\3DPrinter\\text\\UDF_LATEST\\create_offset_curve_with_dim.gph.1";
+	char* offsetCurveUDFpath = "D:\\Project Details\\crowdplat\\NASA-CREO\\3DPrinter\\text\\UDF_LATEST\\create_offset_curve_with_dim.gph.1";
 
 	status = ProUIDialogHide(mainDialog);
 	status = ProUIDialogHide(paramsDialog);
@@ -385,11 +397,70 @@ int placeCurveAction(char* dialog, char* component, ProAppData appdata)
 	//	}
 	//}
 
-	double xOffsetVal, yOffsetVal, fanoutBoundaryVal;
-	status = ProUIInputpanelDoubleGet(paramsDialog, ip_x_ofst, &xOffsetVal);
+	double /*xOffsetVal, yOffsetVal, traceMarginVal,*/ widthDimVal;
+	/*status = ProUIInputpanelDoubleGet(paramsDialog, ip_x_ofst, &xOffsetVal);
 	status = ProUIInputpanelDoubleGet(paramsDialog, ip_y_ofst, &yOffsetVal);
-	status = ProUIInputpanelDoubleGet(paramsDialog, ip_fanout_boundary, &fanoutBoundaryVal);
+	status = ProUIInputpanelDoubleGet(paramsDialog, ip_trace_margin, &traceMarginVal);*/
 
+	// verify if the points are present in the model
+	vector<string> missingPoints;
+	for (int i = 0; i < nodePairs.size();)
+	{
+		if (nodePairs[i].size() == 2)	// temparory purpose
+		{
+			bool removeNode = false;
+			for (int j = 0; j < 2; ++j) 
+			{
+				bool isPointFeatFound;
+				ProFeature pointFeat;
+				isPointFeatFound = GetFeatureByName(CurMdl1, nodePairs[i][j].ref, pointFeat);
+				if (!isPointFeatFound)
+				{
+					missingPoints.push_back(nodePairs[i][0].ref + " - "+ nodePairs[i][1].ref);
+					removeNode = true;
+					break;
+				}
+			}
+			if (removeNode) {
+				nodePairs.erase(nodePairs.begin() + i);
+			}
+			else {
+				++i;
+			}
+		}
+		else {
+			++i;
+		}
+	}
+
+
+	ProUIMessageButton* buttons = nullptr;
+	ProArrayAlloc(2, sizeof(ProUIMessageButton), 2, (ProArray*)&buttons);
+	buttons[0] = PRO_UI_MESSAGE_YES;
+	buttons[1] = PRO_UI_MESSAGE_NO;
+	ProUIMessageButton resultBtn{};
+	if (missingPoints.size() > 0){
+		ProCharPath remarkFile;
+		wchar_t wRemarkFp[PRO_PATH_SIZE];
+		strcpy(remarkFile, "C:\\temp\\");
+		strcat(remarkFile, "PRINTED_ELECTRONICS.txt");
+		writeRemarkTxtFile(remarkFile, missingPoints);
+		status = ProInfoWindowDisplay(ProStringToWstring(wRemarkFp, remarkFile), NULL, NULL);
+	}
+
+	if (nodePairs.size() > 0){
+		status = ProUIMessageDialogDisplay(PROUIMESSAGE_INFO, L"Info", L"Would you like to create the fanout for the available nodes?", buttons, buttons[0], &resultBtn);
+	}
+
+	if (resultBtn == PRO_UI_MESSAGE_NO)
+	{
+		status = ProArrayFree((ProArray*)&buttons);
+		return -1;
+	}
+	status = ProArrayFree((ProArray*)&buttons);
+	status = ProUIInputpanelDoubleGet(paramsDialog, ip_width, &widthDimVal);
+
+	vector<pnt_ord> fanoutMidpointsCoords{};
 	for (int i = 0; i < nodePairs.size(); ++i)
 	{
 		if (nodePairs[i].size() == 2)	// temparory purpose
@@ -403,7 +474,21 @@ int placeCurveAction(char* dialog, char* component, ProAppData appdata)
 			ProFeature grpCurveFeat;
 			int create_curve_sts = createCurveBw2Points(CurMdl1, _point1Name, _csoFeat, _curPointData, _point2Name, _csoFeat1, status, _surfaceid, comp_path, vectPointData, _UdfInputSel, grpCurveFeat);
 			if (create_curve_sts != 0)
-				return -1;
+			{
+				ProUIMessageButton* buttons = nullptr;
+				ProArrayAlloc(1, sizeof(ProUIMessageButton), 1, (ProArray*)&buttons);
+				buttons[0] = PRO_UI_MESSAGE_OK;
+				ProUIMessageButton resultBtn;
+				wchar_t wErrMsg[500];
+				char cErrMsg[500];
+				ProTKSprintf(cErrMsg, "Unable to create a curve between %s and %s. \nPlease check if these nodes are available in the model.", _point1Name.c_str(), _point2Name.c_str());
+				ProStringToWstring(wErrMsg, cErrMsg);
+				//status = ProUIMessageDialogDisplay(PROUIMESSAGE_ERROR, L"Curve creation failed",wErrMsg, buttons, buttons[0], &resultBtn);
+				status = ProArrayFree((ProArray*)&buttons);
+
+				//return -1;
+				continue;
+			}
 
 			vectPointData.clear();
 
@@ -418,6 +503,76 @@ int placeCurveAction(char* dialog, char* component, ProAppData appdata)
 			pnt3D[1] = bendPntCoOrd[1];
 			pnt3D[2] = bendPntCoOrd[2];
 
+			// check if the same obstacle is hit twice
+			double epsilon = 0.0001;
+			bool isSameObstacle = false;
+			for (auto &point : fanoutMidpointsCoords)
+			{
+				if ((fabs(point.x - pnt3D[0]) < epsilon) && (fabs(point.y - pnt3D[1]) < epsilon) && (fabs(point.z - pnt3D[2]) < epsilon)) {
+					pnt3D[0] += 5;
+					pnt3D[1] += 5;
+					pnt3D[2] += 5;
+					isSameObstacle = true;
+				}
+			}
+
+			bool isFeatFound = false;
+			ProFeature _point1Feat, _point2Feat;
+			vector<ProFeature> geomItems;
+			ProParameter fanoutParam;
+			ProParamvalue fanoutParamVal;
+			double p1XoffsetVal=0, p1YoffsetVal=0, p2XoffsetVal=0, p2YoffsetVal=0, finalXoffsetVal = 0, finalYoffsetVal = 0, traceMarginVal = 0;
+
+
+			isFeatFound = GetFeatureByName(CurMdl1, _point1Name, _point1Feat);
+			if (!isFeatFound) {
+				return -1;
+			}
+			/*GetGeomItems(CurMdl1, _point1Feat, geomItems)*/;
+			status = ProParameterInit(&_point1Feat, L"X_OFFSET_CLEARANCE", &fanoutParam);
+			if (status == PRO_TK_NO_ERROR) {
+				status = ProParameterValueWithUnitsGet(&fanoutParam, &fanoutParamVal, NULL);
+				p1XoffsetVal = fanoutParamVal.value.d_val;
+			}
+			status = ProParameterInit(&_point1Feat, L"Y_OFFSET_CLEARANCE", &fanoutParam);
+			if (status == PRO_TK_NO_ERROR) {
+				status = ProParameterValueWithUnitsGet(&fanoutParam, &fanoutParamVal, NULL);
+				p1YoffsetVal = fanoutParamVal.value.d_val;
+			}
+			status = ProParameterInit(&_point1Feat, L"FANOUT_TRACE_MARGIN", &fanoutParam);
+			if (status == PRO_TK_NO_ERROR) {
+				status = ProParameterValueWithUnitsGet(&fanoutParam, &fanoutParamVal, NULL);
+				traceMarginVal = fanoutParamVal.value.d_val;
+			}
+			/*geomItems.clear();*/
+
+			/*isFeatFound = GetFeatureByName(CurMdl1, _point2Name, _point2Feat);
+			if (!isFeatFound) {
+				return -1;
+			}
+			//GetGeomItems(CurMdl1, _point2Feat, geomItems);
+
+			status = ProParameterInit(&_point1Feat, L"X_OFFSET_CLEARANCE", &fanoutParam);
+			if (status == PRO_TK_NO_ERROR) {
+				status = ProParameterValueWithUnitsGet(&fanoutParam, &fanoutParamVal, NULL);
+				p2XoffsetVal = fanoutParamVal.value.d_val;
+			}
+			status = ProParameterInit(&_point1Feat, L"Y_OFFSET_CLEARANCE", &fanoutParam);
+			if (status == PRO_TK_NO_ERROR) {
+				status = ProParameterValueWithUnitsGet(&fanoutParam, &fanoutParamVal, NULL);
+				p2YoffsetVal = fanoutParamVal.value.d_val;
+			}
+			//geomItems.clear();*/
+
+			/*double epsilon = 0.001;
+			if (fabs(p1XoffsetVal - p2XoffsetVal) < epsilon && fabs(p1XoffsetVal - p2XoffsetVal) < epsilon){*/
+			finalXoffsetVal = p1XoffsetVal;
+			finalYoffsetVal = p1YoffsetVal;
+			/*}
+			else {
+
+			}*/
+
 			ProSurface onSurface;
 			ProUvParam surfaceUV;
 			status = ProSolidProjectPoint((ProSolid)CurMdl1, pnt3D, 3, &onSurface, surfaceUV);
@@ -429,8 +584,14 @@ int placeCurveAction(char* dialog, char* component, ProAppData appdata)
 			status = ProSelectionAlloc(NULL, &surfItem, &surfSel);
 			/*surfaceUV[0] = surfaceUV[0] + 0.05;
 			surfaceUV[1] = surfaceUV[1] + 3;*/
-			surfaceUV[0] = surfaceUV[0] + (xOffsetVal * 0.001);
-			surfaceUV[1] = surfaceUV[1] + yOffsetVal;
+
+			surfaceUV[0] = surfaceUV[0] + ((finalXoffsetVal + traceMarginVal + widthDimVal) * 0.001);
+			surfaceUV[1] = surfaceUV[1] + finalYoffsetVal + traceMarginVal + widthDimVal;
+
+			/*if (isSameObstacle) {
+				surfaceUV[0] -= 5;
+				surfaceUV[1] -=	5;
+			}*/
 
 			status = ProSelectionUvParamSet(surfSel, surfaceUV);
 			ProVector projectedPoint;
@@ -443,6 +604,8 @@ int placeCurveAction(char* dialog, char* component, ProAppData appdata)
 			sprintf(cFoMpntName, "FO_MP_%s_%s", _point1Name.c_str(), _point2Name.c_str());
 			ProStringToWstring(wFoMpntName, cFoMpntName);
 			status = ProModelitemNameSet(&pointFeature, wFoMpntName);
+
+			fanoutMidpointsCoords.push_back({ pnt3D[0], pnt3D[1], pnt3D[2] });
 
 			// check if any other point lies within the specified radius
 			vector<ProFeature> fanoutMidpoints;
@@ -472,7 +635,7 @@ int placeCurveAction(char* dialog, char* component, ProAppData appdata)
 					double distBwPnts;
 					status = ProSelectionWithOptionsDistanceEval(pnt1Sel, PRO_B_FALSE, pnt2Sel, PRO_B_FALSE, param1, param1, pnt_1, pnt_1, &distBwPnts);
 					
-					if (distBwPnts < fanoutBoundaryVal)
+					if (distBwPnts < traceMarginVal)
 						fanoutInterferenceFound = true;
 				}
 			}
@@ -508,6 +671,10 @@ int placeCurveAction(char* dialog, char* component, ProAppData appdata)
 				return -1;
 			}*/
 
+			ProFeature* surfGrpFeats = NULL;
+			ProParamvalue nodeNameParamVal;
+			ProParameter nodeNameParam;
+
 			ProFeature csoFeat, csoFeat1;
 			std::vector<ProSelection> UdfInputSel;
 			PointData curPointData = {};
@@ -515,13 +682,24 @@ int placeCurveAction(char* dialog, char* component, ProAppData appdata)
 			//string point2 = sMiddleCurveName;
 			string point2 = string(cBendPointName);
 			int surfaceid = 41245;
-			ProFeature curveFeat, offsetCurve1Feat, offsetCurve2Feat;
+			ProFeature curveFeat, offsetCurve1Feat, offsetCurve2Feat, surfUDFFeat;
 			createCurveBw2Points(CurMdl1, point1, csoFeat, curPointData, point2, csoFeat1, status, surfaceid, comp_path, vectPointData, UdfInputSel, curveFeat);
 			status = ProGroupFeaturesCollect(&curveFeat, &feats);//Give only non suppressed entities
 			status = ProModelitemHide(&feats[1]);
 
 			createTwoOffsetCurve(CurMdl1, status, surfaceid, comp_path, UdfInputSel, curveFeat, offsetCurve1Feat, offsetCurve2Feat);
-			CreateSurfaceBwCurve(CurMdl1, status, surfaceid, comp_path, UdfInputSel, offsetCurve1Feat, offsetCurve2Feat);
+			CreateSurfaceBwCurve(CurMdl1, status, surfaceid, comp_path, UdfInputSel, offsetCurve1Feat, offsetCurve2Feat, surfUDFFeat);
+
+			status = ProGroupFeaturesCollect(&surfUDFFeat, &surfGrpFeats);//Give only non suppressed entities
+
+			status = ProParamvalueSet(&nodeNameParamVal, (void*)&widthDimVal, PRO_PARAM_DOUBLE);
+			status = ProParameterInit(&surfGrpFeats[0], L"WIDTH", &nodeNameParam);
+			if (status != PRO_TK_NO_ERROR) {
+				status = ProParameterWithUnitsCreate(&surfGrpFeats[0], L"WIDTH", &nodeNameParamVal, NULL, &nodeNameParam);
+			}
+			else {
+				status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+			}
 
 			//point1 = sMiddleCurveName;
 			point1 = string(cBendPointName);
@@ -533,9 +711,21 @@ int placeCurveAction(char* dialog, char* component, ProAppData appdata)
 			status = ProModelitemHide(&feats[1]);
 
 			createTwoOffsetCurve(CurMdl1, status, surfaceid, comp_path, UdfInputSel, curveFeat, offsetCurve1Feat, offsetCurve2Feat);
-			CreateSurfaceBwCurve(CurMdl1, status, surfaceid, comp_path, UdfInputSel, offsetCurve1Feat, offsetCurve2Feat);
+			CreateSurfaceBwCurve(CurMdl1, status, surfaceid, comp_path, UdfInputSel, offsetCurve1Feat, offsetCurve2Feat, surfUDFFeat);
+
+			status = ProGroupFeaturesCollect(&surfUDFFeat, &surfGrpFeats);//Give only non suppressed entities
+
+			status = ProParamvalueSet(&nodeNameParamVal, (void*)&widthDimVal, PRO_PARAM_DOUBLE);
+			status = ProParameterInit(&surfGrpFeats[0], L"WIDTH", &nodeNameParam);
+			if (status != PRO_TK_NO_ERROR) {
+				status = ProParameterWithUnitsCreate(&surfGrpFeats[0], L"WIDTH", &nodeNameParamVal, NULL, &nodeNameParam);
+			}
+			else {
+				status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+			}
 		}
 	}
+	fanoutMidpointsCoords.clear();
 
 	/*ProFeature csoFeat, csoFeat1;
 	std::vector<ProSelection> UdfInputSel;
@@ -703,6 +893,14 @@ ProError VesGeomItemVisitAction(ProGeomitem* p_handle, ProError status, ProAppDa
 	return lErr;
 }
 
+ProError featureDimensionVisitAction(ProDimension* p_handle, ProError status, ProAppData app_data)
+{
+	ProError lErr = PRO_TK_NO_ERROR;
+	vector<ProDimension>* lpVecfeature = (vector<ProDimension>*)(app_data);
+	lpVecfeature->push_back(*p_handle);
+	return lErr;
+}
+
 void closeMYdialog(char* dialog, char* component, ProAppData appdata)
 {
 	ProError status;
@@ -759,8 +957,7 @@ void placeBondpadAction(char* dialog, char* component, ProAppData appdata)
 	ProSelection* pntPlacementSel;
 	int nSel;
 
-	status = ProSelect("edge,surface", 1, NULL, NULL,
-		NULL, NULL, &pntPlacementSel, &nSel);
+	status = ProSelect("edge,surface", 1, NULL, NULL, NULL, NULL, &pntPlacementSel, &nSel);
 
 	/*ProUvParam sel_uv_param, sel_uv_param_1;
 	status = ProSelectionUvParamGet(pntPlacementSel[0], sel_uv_param);
@@ -909,8 +1106,9 @@ void placeBondpadAction(char* dialog, char* component, ProAppData appdata)
 	status = ProGroupFeaturesCollect(&bondpadUDFFeat, &feats);//Give only non suppressed entities
 
 	ProParamvalue nodeNameParamVal;
-	status = ProParamvalueSet(&nodeNameParamVal, (void*)wPointName, PRO_PARAM_STRING);
 	ProParameter nodeNameParam;
+
+	status = ProParamvalueSet(&nodeNameParamVal, (void*)wPointName, PRO_PARAM_STRING);
 	status = ProParameterInit(&feats[7], L"NODE_NAME", &nodeNameParam);
 	if (status != PRO_TK_NO_ERROR) {
 		status = ProParameterWithUnitsCreate(&feats[7], L"NODE_NAME", &nodeNameParamVal, NULL, &nodeNameParam);
@@ -918,7 +1116,116 @@ void placeBondpadAction(char* dialog, char* component, ProAppData appdata)
 	else {
 		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
 	}
+
 	status = ProModelitemNameSet(&feats[7], wPointName);
+
+	double xOffsetVal, yOffsetVal, traceMarginVal;
+	// X_OFFSET_CLEARANCE
+	status = ProUIInputpanelDoubleGet(paramsDialog, ip_x_ofst, &xOffsetVal);
+	status = ProParamvalueSet(&nodeNameParamVal, (void*)&xOffsetVal, PRO_PARAM_DOUBLE);
+	status = ProParameterInit(&feats[7], L"X_OFFSET_CLEARANCE", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&feats[7], L"X_OFFSET_CLEARANCE", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+	status = ProParameterInit(&feats[0], L"X_OFFSET_CLEARANCE", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&feats[0], L"X_OFFSET_CLEARANCE", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+
+	// Y_OFFSET_CLEARANCE
+	status = ProUIInputpanelDoubleGet(paramsDialog, ip_y_ofst, &yOffsetVal);
+	status = ProParamvalueSet(&nodeNameParamVal, (void*)&yOffsetVal, PRO_PARAM_DOUBLE);
+	status = ProParameterInit(&feats[7], L"Y_OFFSET_CLEARANCE", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&feats[7], L"Y_OFFSET_CLEARANCE", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+	status = ProParameterInit(&feats[0], L"Y_OFFSET_CLEARANCE", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&feats[0], L"Y_OFFSET_CLEARANCE", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+
+	// FANOUT_TRACE_MARGIN
+	status = ProUIInputpanelDoubleGet(paramsDialog, ip_trace_margin, &traceMarginVal);
+	status = ProParamvalueSet(&nodeNameParamVal, (void*)&traceMarginVal, PRO_PARAM_DOUBLE);
+	status = ProParameterInit(&feats[7], L"FANOUT_TRACE_MARGIN", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&feats[7], L"FANOUT_TRACE_MARGIN", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+
+	status = ProParameterInit(&feats[0], L"FANOUT_TRACE_MARGIN", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&feats[0], L"FANOUT_TRACE_MARGIN", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+
+	double heightDimVal, widthDimVal;
+	status = ProUIInputpanelDoubleGet(paramsDialog, ip_height, &heightDimVal);
+	status = ProUIInputpanelDoubleGet(paramsDialog, ip_width, &widthDimVal);
+	// HEIGHT
+	status = ProParamvalueSet(&nodeNameParamVal, (void*)&heightDimVal, PRO_PARAM_DOUBLE);
+	status = ProParameterInit(&feats[0], L"HEIGHT", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&feats[0], L"HEIGHT", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+	// WIDTH
+	status = ProParamvalueSet(&nodeNameParamVal, (void*)&widthDimVal, PRO_PARAM_DOUBLE);
+	status = ProParameterInit(&feats[0], L"WIDTH", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&feats[0], L"WIDTH", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+
+	// DESCRIPTION
+	wchar_t* wDesc;
+	status = ProUITextareaValueGet(paramsDialog, textarea_desc, &wDesc);
+	if (status == PRO_TK_NO_ERROR)
+	{
+		ProExtdataClass data_class;
+		data_class.p_model = CurMdl1;
+		ProExtdataSlot data_slot;
+		ProExtdataErr err;
+		err = ProExtdataClassRegister(CurMdl1, L"DESC_SLOT", &data_class);
+
+		char cSlotName[PRO_NAME_SIZE];
+		wchar_t wSlotName[PRO_NAME_SIZE];
+		strcpy(cSlotName, "BONDPAD_DESC_1");
+		strcat(cSlotName, to_string(feats[0].id).c_str());
+		ProStringToWstring(wSlotName, cSlotName);
+
+		err = ProExtdataSlotCreate(&data_class, wSlotName, &data_slot);
+		if(err == PROEXTDATA_TK_NO_ERROR)
+			err = ProExtdataSlotWrite(&data_slot, 4098, PRO_WIDE_STRING_TYPE, 0, &wDesc[0]);
+
+		if (err == PROEXTDATA_TK_NO_ERROR){
+			void* readData;
+			int type;
+			err = ProExtdataSlotRead(&data_slot, 4098, &type, 0, &readData);
+			wchar_t* wData = (wchar_t*)readData;
+			int i = 0;
+		}
+	}
 
 	status = ProUIDialogShow(mainDialog);
 	status = ProUIDialogExit(paramsDialog, PRO_TK_NO_ERROR);
@@ -957,7 +1264,7 @@ void placeBondpadAction2(char* dialog, char* component, ProAppData appdata)
 	status = ProModelitemByNameInit(CurMdl1, PRO_AXIS, L"A_2", &dirAxisItem);
 	status = ProSelectionAlloc(NULL, &dirAxisItem, &dirAxisSel);
 
-	bondpadUdfpath = "C:\\Users\\venki\\Downloads\\3DPrinter (28)\\3DPrinter (28)\\3DPrinter\\text\\UDF_LATEST\\bondpads_with_dummy_resistor.gph.1";
+	bondpadUdfpath = "D:\\Project Details\\crowdplat\\NASA-CREO\\3DPrinter\\text\\UDF_LATEST\\bondpads_with_dummy_resistor.gph.1";
 	bondpadUDFsels.push_back(pntSel);
 	bondpadUDFsels.push_back(pntPlacementSel[0]);
 	bondpadUDFsels.push_back(dirSurfSel);
@@ -1080,10 +1387,373 @@ ProError featCurveGeomitemVisit(ProGeomitem& p_handle, ProError status, ProAppDa
 	return PRO_TK_NO_ERROR;
 }
 
+ProError mirrorFeatCreatePostAction(ProFeature &createdFeat)
+{
+	ProError status;
+	ProName wFeatName;
+	ProMdl curMdl;
+	vector<ProGeomitem> featsGeomitems;
+	ProMdlCurrentGet(&curMdl);
+	/*status = ProFeatureGeomitemVisit(&createdFeat, PRO_TYPE_UNUSED, VesGeomItemVisitAction, NULL, (ProAppData)&featsGeomitems);*/
+
+	status = ProModelitemDefaultnameGet(&createdFeat, wFeatName);
+	ProCharName cFeatName;
+	ProWstringToString(cFeatName, wFeatName);
+	if (string(cFeatName).find("MIRROR") != string::npos)
+	{
+		ProSelection* sel;
+		int           n_sel;
+		wchar_t       w_str[5];
+		char          str[100], a_str[5];
+		double        volume;
+		FILE* fp;
+		char          fname[PRO_NAME_SIZE + 4];
+		wchar_t       w_fname[PRO_NAME_SIZE + 4];
+		ProMdl        p_model;
+		ProFileName   msg_fil;
+		ProInterferenceData interf_data;
+
+		status = ProSelect("surface", 2, NULL, NULL, NULL, NULL, &sel, &n_sel);
+		if (n_sel > 0) {
+			status = ProFitInterferenceCompute(sel[0], sel[1], PRO_B_FALSE, PRO_B_FALSE, &interf_data);
+		}
+		int i = 0;
+	}
+	return PRO_TK_NO_ERROR;
+}
+
+void updateBondpadAction(char* dialog, char* component, ProAppData appdata)
+{
+	ProError status;
+	ProGroup* bondpadGroup = (ProGroup*)appdata;
+	ProFeature* grpFeats;
+	ProMdl curMdl;
+	status = ProMdlCurrentGet(&curMdl);
+	status = ProGroupFeaturesCollect(bondpadGroup, &grpFeats);
+	vector<ProDimension> vecFeatDims;
+
+	double height, width, ofstX, ofstY, traceMargin;
+	status = ProUIInputpanelDoubleGet(UDFmodifyDialog, ip_height, &height);
+	status = ProUIInputpanelDoubleGet(UDFmodifyDialog, ip_width, &width);
+	status = ProUIInputpanelDoubleGet(UDFmodifyDialog, ip_x_ofst, &ofstX);
+	status = ProUIInputpanelDoubleGet(UDFmodifyDialog, ip_y_ofst, &ofstY);
+	status = ProUIInputpanelDoubleGet(UDFmodifyDialog, ip_trace_margin, &traceMargin);
+
+	// WIDTH
+	status = ProFeatureDimensionVisit(&grpFeats[1], featureDimensionVisitAction, NULL, (ProAppData)&vecFeatDims);
+	status = ProDimensionValueSet(&vecFeatDims[0], width/2);
+	vecFeatDims.clear();
+	status = ProFeatureDimensionVisit(&grpFeats[2], featureDimensionVisitAction, NULL, (ProAppData)&vecFeatDims);
+	status = ProDimensionValueSet(&vecFeatDims[0], width / 2);
+	vecFeatDims.clear();
+
+	// HEIGHT
+	status = ProFeatureDimensionVisit(&grpFeats[3], featureDimensionVisitAction, NULL, (ProAppData)&vecFeatDims);
+	status = ProDimensionValueSet(&vecFeatDims[0], height);
+	vecFeatDims.clear();
+	status = ProFeatureDimensionVisit(&grpFeats[4], featureDimensionVisitAction, NULL, (ProAppData)&vecFeatDims);
+	status = ProDimensionValueSet(&vecFeatDims[0], height);
+	vecFeatDims.clear();
+	status = ProFeatureDimensionVisit(&grpFeats[6], featureDimensionVisitAction, NULL, (ProAppData)&vecFeatDims);
+	status = ProDimensionValueSet(&vecFeatDims[0], height - (height * 0.3));
+	vecFeatDims.clear();
+
+	ProParamvalue nodeNameParamVal;
+	ProParameter nodeNameParam;
+	// X_OFFSET_CLEARANCE
+	status = ProParamvalueSet(&nodeNameParamVal, (void*)&ofstX, PRO_PARAM_DOUBLE);
+	status = ProParameterInit(&grpFeats[7], L"X_OFFSET_CLEARANCE", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&grpFeats[7], L"X_OFFSET_CLEARANCE", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+	status = ProParameterInit(&grpFeats[0], L"X_OFFSET_CLEARANCE", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&grpFeats[0], L"X_OFFSET_CLEARANCE", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+
+	// Y_OFFSET_CLEARANCE
+	status = ProParamvalueSet(&nodeNameParamVal, (void*)&ofstY, PRO_PARAM_DOUBLE);
+	status = ProParameterInit(&grpFeats[7], L"Y_OFFSET_CLEARANCE", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&grpFeats[7], L"Y_OFFSET_CLEARANCE", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+	status = ProParameterInit(&grpFeats[0], L"Y_OFFSET_CLEARANCE", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&grpFeats[0], L"Y_OFFSET_CLEARANCE", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+
+	// FANOUT_TRACE_MARGIN
+	status = ProParamvalueSet(&nodeNameParamVal, (void*)&traceMargin, PRO_PARAM_DOUBLE);
+	status = ProParameterInit(&grpFeats[7], L"FANOUT_TRACE_MARGIN", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&grpFeats[7], L"FANOUT_TRACE_MARGIN", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+
+	status = ProParameterInit(&grpFeats[0], L"FANOUT_TRACE_MARGIN", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&grpFeats[0], L"FANOUT_TRACE_MARGIN", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+
+	// HEIGHT
+	status = ProParamvalueSet(&nodeNameParamVal, (void*)&height, PRO_PARAM_DOUBLE);
+	status = ProParameterInit(&grpFeats[0], L"HEIGHT", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&grpFeats[0], L"HEIGHT", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+	// WIDTH
+	status = ProParamvalueSet(&nodeNameParamVal, (void*)&width, PRO_PARAM_DOUBLE);
+	status = ProParameterInit(&grpFeats[0], L"WIDTH", &nodeNameParam);
+	if (status != PRO_TK_NO_ERROR) {
+		status = ProParameterWithUnitsCreate(&grpFeats[0], L"WIDTH", &nodeNameParamVal, NULL, &nodeNameParam);
+	}
+	else {
+		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
+	}
+	
+	// DESCRIPTION
+	wchar_t* wDesc;
+	status = ProUITextareaValueGet(UDFmodifyDialog, textarea_desc, &wDesc);
+	if (status == PRO_TK_NO_ERROR)
+	{
+		ProExtdataClass data_class;
+		data_class.p_model = curMdl;
+		ProExtdataSlot data_slot;
+		ProExtdataErr err;
+		wcscpy(data_class.class_name, L"DESC_SLOT");
+		data_class.p_model = curMdl;
+		data_slot.p_class = &data_class;
+
+		char cSlotName[PRO_NAME_SIZE];
+		strcpy(cSlotName, "BONDPAD_DESC_1");
+		strcat(cSlotName, to_string(grpFeats[0].id).c_str());
+		ProStringToWstring(data_slot.slot_name, cSlotName);
+		err = ProExtdataSlotWrite(&data_slot, 4098, PRO_WIDE_STRING_TYPE, 0, &wDesc[0]);
+		if (err == PROEXTDATA_TK_NO_ERROR) {
+			void* readData;
+			int type;
+			err = ProExtdataSlotRead(&data_slot, 4098, &type, 0, &readData);
+			wchar_t* wData = (wchar_t*)readData;
+		}
+	}
+
+	status = ProSolidRegenerate((ProSolid)curMdl, PRO_REGEN_NO_FLAGS);
+	status = ProUIDialogExit(UDFmodifyDialog, PRO_TK_NO_ERROR);
+
+}
+
+ProError bondPadModifyAction(char* dialog, char* component, ProAppData appdata)
+{
+	ProError status;
+	ProSelection* surfFeatSels;
+	int nSurfFeatSels;
+	ProModelitem surfFeatItem{};
+	vector<ProGeomitem> vecGeomItems;
+	vector<ProDimension> vecFeatDims;
+	ProGroup bondpadGroup;
+	ProFeature surfFeat;
+
+	status = ProSelbufferSelectionsGet(&surfFeatSels);
+	if (status != PRO_TK_NO_ERROR)
+		return PRO_TK_NO_ERROR;
+
+	status = ProSelectionModelitemGet(surfFeatSels[0], &surfFeatItem);
+
+	/*status = ProSelect((char*)"feature", 1, NULL, NULL, NULL, NULL, &surfFeatSels, &nSurfFeatSels);
+	if (status != PRO_TK_NO_ERROR && nSurfFeatSels < 1){
+		return PRO_TK_NO_ERROR;
+	}*/
+	if (surfFeatItem.type == PRO_SURFACE) {
+		int *parentIds;
+		int nParents;
+		status = ProGeomitemFeatureGet((ProGeomitem*)&surfFeatItem, &surfFeat);
+		status = ProFeatureGroupGet(&surfFeat, &bondpadGroup);
+	}
+	else if (surfFeatItem.type == PRO_FEATURE){
+		ProFeattype featType;
+		status = ProFeatureTypeGet((ProFeature*)&surfFeatItem, &featType);
+		if (featType != PRO_FEAT_DATUM_SURF)
+			return PRO_TK_NO_ERROR;
+		status = ProFeatureGroupGet((ProFeature*)&surfFeatItem, &bondpadGroup);
+		if (status != PRO_TK_NO_ERROR)
+			return PRO_TK_NO_ERROR;
+	}
+	else{
+		return PRO_TK_GENERAL_ERROR;
+	}
+
+	ProFeature* grpFeats;
+	status = ProGroupFeaturesCollect(&bondpadGroup, &grpFeats);
+	if (status != PRO_TK_NO_ERROR)
+		return PRO_TK_NO_ERROR;
+
+	/*ProPoint heightPnt;
+	status = ProFeatureGeomitemVisit(&grpFeats[0], PRO_POINT, VesGeomItemVisitAction, NULL, (ProAppData)&vecGeomItems);
+	ProGeomitemToPoint(&vecGeomItems[0], &heightPnt);*/
+	status = ProUIDialogCreate(UDFmodifyDialog, UDFmodifyDialog);
+	if (status != PRO_TK_NO_ERROR)
+		return status;
+	status = ProUIDialogAboveactivewindowSet(UDFmodifyDialog, PRO_B_FALSE);
+	status = ProUIPushbuttonActivateActionSet(UDFmodifyDialog, okbtn, updateBondpadAction, (ProAppData)&bondpadGroup);
+	status = ProUIPushbuttonActivateActionSet(UDFmodifyDialog, closebtn, closeMYdialog, NULL);
+	status = ProUIDialogCloseActionSet(UDFmodifyDialog, closeMYdialog, NULL);
+
+	double height=0.0, width = 0.0, ofstX = 0.0, ofstY = 0.0, traceMargin = 0.0;
+	ProParameter dimParam;
+	ProParamvalue dimParamValue;
+	status = ProParameterInit(&grpFeats[0], L"HEIGHT", &dimParam);
+	if (status == PRO_TK_NO_ERROR) {
+		status = ProParameterValueWithUnitsGet(&dimParam, &dimParamValue, NULL);
+		height = dimParamValue.value.d_val;
+	}
+	status = ProParameterInit(&grpFeats[0], L"WIDTH", &dimParam);
+	if (status == PRO_TK_NO_ERROR) {
+		status = ProParameterValueWithUnitsGet(&dimParam, &dimParamValue, NULL);
+		width = dimParamValue.value.d_val;
+	}
+	status = ProParameterInit(&grpFeats[0], L"X_OFFSET_CLEARANCE", &dimParam);
+	if (status == PRO_TK_NO_ERROR) {
+		status = ProParameterValueWithUnitsGet(&dimParam, &dimParamValue, NULL);
+		ofstX = dimParamValue.value.d_val;
+	}
+	status = ProParameterInit(&grpFeats[0], L"Y_OFFSET_CLEARANCE", &dimParam);
+	if (status == PRO_TK_NO_ERROR) {
+		status = ProParameterValueWithUnitsGet(&dimParam, &dimParamValue, NULL);
+		ofstY = dimParamValue.value.d_val;
+	}
+	status = ProParameterInit(&grpFeats[0], L"FANOUT_TRACE_MARGIN", &dimParam);
+	if (status == PRO_TK_NO_ERROR) {
+		status = ProParameterValueWithUnitsGet(&dimParam, &dimParamValue, NULL);
+		traceMargin = dimParamValue.value.d_val;
+	}
+	
+	status = ProUIInputpanelDoubleSet(UDFmodifyDialog, ip_height, height);
+	status = ProUIInputpanelDoubleSet(UDFmodifyDialog, ip_width, width);
+	status = ProUIInputpanelDoubleSet(UDFmodifyDialog, ip_x_ofst, ofstX);
+	status = ProUIInputpanelDoubleSet(UDFmodifyDialog, ip_y_ofst, ofstY);
+	status = ProUIInputpanelDoubleSet(UDFmodifyDialog, ip_trace_margin, traceMargin);
+
+	// DESC
+	ProExtdataErr err;
+	ProExtdataSlot data_slot;
+	ProExtdataClass data_class;
+	ProMdl curMdl;
+	status = ProMdlCurrentGet(&curMdl);
+	data_class.p_model = curMdl;
+	wcscpy(data_class.class_name, L"DESC_SLOT");
+
+	data_slot.p_class = &data_class;
+	char cSlotName[PRO_NAME_SIZE];
+	strcpy(cSlotName, "BONDPAD_DESC_1");
+	strcat(cSlotName, to_string(grpFeats[0].id).c_str());
+	ProStringToWstring(data_slot.slot_name, cSlotName);
+	void* readData;
+	int type;
+	err = ProExtdataSlotRead(&data_slot, 4098, &type, 0, &readData);
+	if (err == PROEXTDATA_TK_NO_ERROR) {
+		wchar_t* wData = (wchar_t*)readData;
+		status = ProUITextareaValueSet(UDFmodifyDialog, textarea_desc, wData);
+	}
+
+	int stat = -1;
+	status = ProUIDialogActivate(UDFmodifyDialog, &stat);
+	status = ProUIDialogDestroy(UDFmodifyDialog);
+	
+	//double defaultHeight = 0, defaultWidth = 0;
+	//ProErr lErr;
+	//bool isCreatedUDF = false;
+	//ProUdfdata UdfData = NULL;
+	//lErr = ProUdfdataAlloc(&UdfData);
+	//ProPath UdfFilePath;
+	//char* bondpadUdfpath = "D:\\Project Details\\crowdplat\\NASA-CREO\\3DPrinter\\text\\UDF_LATEST\\bondpad_placement_with_dims.gph.1";
+	////char* bondpadUdfpath = "D:\\Project Details\\crowdplat\\NASA-CREO\\3DPrinter\\text\\UDF_LATEST\\bondpad_placement_udf.gph.1";
+
+	//status = ProUIDialogAboveactivewindowSet(paramsDialog, PRO_B_FALSE);
+	//status = ProUIPushbuttonActivateActionSet(paramsDialog, okbtn, placeBondpadAction, (ProAppData)bondpadUdfpath);
+	//status = ProUIPushbuttonActivateActionSet(paramsDialog, closebtn, closeMYdialog, NULL);
+	//status = ProUIDialogCloseActionSet(paramsDialog, closeMYdialog, NULL);
+	///*status = ProUILabelHide(paramsDialog, "offset_x_lbl");
+	//status = ProUIInputpanelHide(paramsDialog, ip_x_ofst);
+	//status = ProUILabelHide(paramsDialog, "offset_y_lbl");
+	//status = ProUIInputpanelHide(paramsDialog, ip_y_ofst);
+	//status = ProUILabelHide(paramsDialog, "fanout_boundary_lbl");
+	//status = ProUIInputpanelHide(paramsDialog, ip_trace_margin);*/
+	////status = ProUILayoutHide(paramsDialog, layout_fanout_attributes);
+	////status = ProUILayoutHide(paramsDialog, layout_clearance);
+
+	//string sBondpadUdfpath = string(bondpadUdfpath);
+	//ProStringToWstring(UdfFilePath, (char*)sBondpadUdfpath.c_str());
+	//lErr = ProUdfdataPathSet(UdfData, UdfFilePath);
+
+	//ProUdfvardim* var_dim_array;
+	//int size;
+	//int i;
+	//status = ProUdfdataVardimsGet(UdfData, &var_dim_array);
+	//if (status == PRO_TK_NO_ERROR)
+	//{
+	//	status = ProArraySizeGet(var_dim_array, &size);
+	//	for (i = 0; i < size; i++)
+	//	{
+	//		wchar_t wDimName[PRO_NAME_SIZE];
+	//		char cDimName[PRO_NAME_SIZE];
+
+	//		ProLine wPrompt;
+	//		status = ProUdfvardimPromptGet(var_dim_array[i], wPrompt);
+	//		ProUdfVardimType value_type;
+	//		double defaultDimVal;
+	//		status = ProUdfvardimDefaultvalueGet(var_dim_array[i], &value_type, &defaultDimVal);
+
+	//		char cPrompt[PRO_NAME_SIZE];
+	//		ProWstringToString(cPrompt, wPrompt);
+	//		if (strcmp(cPrompt, "width1") == 0) {
+	//			defaultWidth = 2 * defaultDimVal;
+	//		}
+	//		else if (strcmp(cPrompt, "height1") == 0) {
+	//			defaultHeight = defaultDimVal;
+	//		}
+	//	}
+	//	ProUdfvardimProarrayFree(var_dim_array);
+	//}
 
 
+
+	return PRO_TK_NO_ERROR;
+}
 
 // ----------------------------------------------   SUPPORTING FUNCTIONS   ----------------------------------------------
+void writeRemarkTxtFile(string remarkFp, vector<string> missingPoints)
+{
+	FILE *fp = NULL;
+	fp = fopen(remarkFp.c_str(), "w");
+
+	fprintf(fp, "Please note that the following node pairs are not available in the model:\n\n");
+	for (int i = 0; i < missingPoints.size(); ++i)
+	{
+		fprintf(fp, "%d. %s\n", i + 1, missingPoints[i].c_str());
+	}
+	fclose(fp);
+}
+
 vector<vector<Node>> extractNodePairsFromFile(const string& filename)
 {
 	std::vector<std::vector<Node>> nodePairs;
@@ -1122,7 +1792,8 @@ vector<vector<Node>> extractNodePairsFromFile(const string& filename)
 				}
 				if (file.eof())
 				{ // Handle the end of the file
-					if (!nodes.empty()) {
+					if (!nodes.empty())
+					{
 						nodePairs.push_back(nodes);
 					}
 					break;
@@ -1179,7 +1850,7 @@ int createCurveBw2Points(const ProMdl& CurMdl1, std::string& point1, ProFeature&
 	}
 	UdfInputSel.push_back(SurfSelection1);
 
-	string Udfpath = "C:\\Users\\venki\\Downloads\\3DPrinter (28)\\3DPrinter (28)\\3DPrinter\\text\\UDF_LATEST\\create_curve.gph.1";
+	string Udfpath = "D:\\Project Details\\crowdplat\\NASA-CREO\\3DPrinter\\text\\UDF_LATEST\\create_curve.gph.1";
 	LoadUDFwithoutDims(CurMdl1, Udfpath, UdfInputSel, udfGrpFeat, NULL, PRO_B_TRUE);
 
 	return 0;
@@ -1826,7 +2497,7 @@ bool LoadCurveUDF(ProMdl Mdl, string UDFFileName, vector<ProSelection>& UDFInput
 	return isCreatedUDF;
 }
 
-void CreateSurfaceBwCurve(const ProMdl& CurMdl1, ProError status, int surfaceid, ProAsmcomppath& comp_path, std::vector<ProSelection>& UdfInputSel, ProFeature& udfOffsetCurve1Feat, ProFeature& udfOffsetCurve2Feat)
+void CreateSurfaceBwCurve(const ProMdl& CurMdl1, ProError status, int surfaceid, ProAsmcomppath& comp_path, std::vector<ProSelection>& UdfInputSel, ProFeature& udfOffsetCurve1Feat, ProFeature& udfOffsetCurve2Feat, ProFeature &surfFeature)
 {
 	ProSurface lSurface;
 	ProGeomitem comp_datum;
@@ -1905,9 +2576,9 @@ void CreateSurfaceBwCurve(const ProMdl& CurMdl1, ProError status, int surfaceid,
 	ProSelectionHighlight(childSelection2_1, PRO_COLOR_HIGHLITE);
 	ProSelectionHighlight(childSelection2_2, PRO_COLOR_HIGHLITE);
 	ProFeature UDFGrpFeat4;
-	string Udfpath = "C:\\Users\\venki\\Downloads\\3DPrinter (28)\\3DPrinter (28)\\3DPrinter\\text\\UDF_LATEST\\create_surface.gph.1";
+	string Udfpath = "D:\\Project Details\\crowdplat\\NASA-CREO\\3DPrinter\\text\\UDF_LATEST\\create_surface.gph.1";
 	
-	LoadUDFwithoutDims(CurMdl1, Udfpath, UdfInputSel, UDFGrpFeat4, NULL, PRO_B_TRUE);
+	LoadUDFwithoutDims(CurMdl1, Udfpath, UdfInputSel, surfFeature, NULL, PRO_B_TRUE);
 
 	ProFeature* feats = NULL;
 	status = ProGroupFeaturesCollect(&UDFGrpFeat4, &feats);//Give only non suppressed entities
@@ -1962,7 +2633,7 @@ void createTwoOffsetCurve(const ProMdl& CurMdl1, ProError status, int surfaceid,
 	UdfInputSel.push_back(childSelection2);
 	UdfInputSel.push_back(childCurveSelection2);
 	//UdfInputSel.push_back(SurfSelection1);
-	string Udfpath = "C:\\Users\\venki\\Downloads\\3DPrinter (28)\\3DPrinter (28)\\3DPrinter\\text\\UDF_LATEST\\end_2_offset_curve.gph.1";
+	string Udfpath = "D:\\Project Details\\crowdplat\\NASA-CREO\\3DPrinter\\text\\UDF_LATEST\\end_2_offset_curve.gph.1";
 
 	double widthDimVal;
 	status = ProUIInputpanelDoubleGet(paramsDialog, ip_width, &widthDimVal);
@@ -2020,7 +2691,7 @@ void createTwoOffsetCurve(const ProMdl& CurMdl1, ProError status, int surfaceid,
 //	UdfInputSel.push_back(SurfSelection1);
 //	UdfInputSel.push_back(childSelection2);
 //	UdfInputSel.push_back(childCurveSelection1);
-//	string Udfpath = "C:\\Users\\venki\\Downloads\\3DPrinter (28)\\3DPrinter (28)\\3DPrinter\\text\\UDF_LATEST\\offset_curve.gph.1";
+//	string Udfpath = "D:\\Project Details\\crowdplat\\NASA-CREO\\3DPrinter\\text\\UDF_LATEST\\offset_curve.gph.1";
 //
 //	LoadUDFwithoutDims(CurMdl1, Udfpath, UdfInputSel, udfOffsetCurveFeat, NULL, PRO_B_TRUE);
 //}

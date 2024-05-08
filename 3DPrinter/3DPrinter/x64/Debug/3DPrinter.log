@@ -1,2 +1,90 @@
-﻿     Creating library C:\Users\venki\Downloads\3DPrinter (28)\3DPrinter (28)\3DPrinter\3DPrinter\x64\Debug\3DPrinter.lib and object C:\Users\venki\Downloads\3DPrinter (28)\3DPrinter (28)\3DPrinter\3DPrinter\x64\Debug\3DPrinter.exp
-  3DPrinter.vcxproj -> C:\Users\venki\Downloads\3DPrinter (28)\3DPrinter (28)\3DPrinter\3DPrinter\x64\Debug\3DPrinter.dll
+﻿  pch.cpp
+  dllmain.cpp
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(13,13): warning C4101: 'cmd_id1': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(88,12): warning C4101: 'wDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(89,9): warning C4101: 'cDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(159,12): warning C4101: 'wDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(160,9): warning C4101: 'cDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(196,10): warning C4101: 'UdfFilePath': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(542,4): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(439,22): warning C4101: 'nearPnt3d': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(458,28): warning C4101: '_point2Feat': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(571,23): warning C4101: 'param2': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(572,22): warning C4101: 'pnt_2': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(779,16): warning C4101: 'fStatus': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(782,20): warning C4101: 'FeatDefName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(859,74): warning C4101: 'dirEdgeItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(986,11): warning C4101: 'pntRefEdge': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(964,19): warning C4101: 'pnt_2': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1077,61): warning C4101: 'dirSurfItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1077,74): warning C4101: 'dirEdgeItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1077,42): warning C4101: 'placementSurfItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1077,15): warning C4101: 'placementRefItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1566,26): warning C4101: 'value': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1563,26): warning C4101: 'feature': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1567,26): warning C4101: 'name': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1579,8): warning C4101: 'n_select': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1576,11): warning C4101: 'wide_string': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1578,16): warning C4101: 'p_select': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1577,16): warning C4101: 'value_data': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1682,12): warning C4101: 'wDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1683,9): warning C4101: 'cDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1823,13): warning C4101: 'wDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1824,10): warning C4101: 'cDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1920,12): warning C4101: 'wDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1921,9): warning C4101: 'cDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1968,14): warning C4101: 'comp_datum': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1969,15): warning C4101: 'SurfSelection1': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1991,16): warning C4101: 'curvMdlItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2020,16): warning C4101: 'curvMdlItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2082,16): warning C4101: 'curvMdlItem': unreferenced local variable
+  VesModelTree.cpp
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\VesModelTree.cpp(344,80): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\VesModelTree.cpp(471,7): warning C4101: 'stat': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\VesModelTree.cpp(468,13): warning C4101: 'wNewName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\VesModelTree.cpp(536,17): warning C4101: 'simpData': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\VesModelTree.cpp(533,9): warning C4101: 'mdl': unreferenced local variable
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(2541,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=char
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(2552): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(2552): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(2532): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(2532): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\VesModelTree.cpp(18): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\VesModelTree.cpp(18): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+  Generating Code...
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\VesModelTree.cpp(152): warning C4715: 'VesModelTree::GetParentCompPath': not all control paths return a value
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\VesModelTree.cpp(491): warning C4700: uninitialized local variable 'status' used
+     Creating library D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\x64\Debug\3DPrinter.lib and object D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\x64\Debug\3DPrinter.exp
+  3DPrinter.vcxproj -> D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\x64\Debug\3DPrinter.dll
