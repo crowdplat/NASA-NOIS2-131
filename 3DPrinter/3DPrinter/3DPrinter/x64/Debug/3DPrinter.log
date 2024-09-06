@@ -1,0 +1,211 @@
+﻿  dllmain.cpp
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(13,13): warning C4101: 'cmd_id1': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(78,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(80,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(109,12): warning C4101: 'wDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(110,9): warning C4101: 'cDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(148,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(149,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(182,12): warning C4101: 'wDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(183,9): warning C4101: 'cDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(284,17): warning C4101: 'comp_path': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(282,10): warning C4101: 'UdfFilePath': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(471,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(472,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(529,6): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(530,6): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(531,6): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(591,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(592,5): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(593,5): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(594,5): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(618,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(619,5): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(620,5): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(651,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(652,3): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(703,4): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(704,4): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(705,4): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(706,4): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(574,53): warning C4101: 'widthDimVal1': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1166,16): warning C4101: 'fStatus': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1169,20): warning C4101: 'FeatDefName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1236,14): warning C4101: 'featType': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1267,20): warning C4101: 'pnt_2': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1513,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1514,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1526,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1527,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1627,3): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1634,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1635,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1326,74): warning C4101: 'dirEdgeItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1470,11): warning C4101: 'pntRefEdge': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1448,19): warning C4101: 'pnt_2': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1703,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1704,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1672,61): warning C4101: 'dirSurfItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1672,74): warning C4101: 'dirEdgeItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1672,42): warning C4101: 'placementSurfItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1672,15): warning C4101: 'placementRefItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1871,17): warning C4101: 'msg_fil': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1870,17): warning C4101: 'p_model': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1866,17): warning C4101: 'volume': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1869,17): warning C4101: 'w_fname': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1868,17): warning C4101: 'fname': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1865,27): warning C4101: 'a_str': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1867,9): warning C4101: 'fp': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1865,17): warning C4101: 'str': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1864,17): warning C4101: 'w_str': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2046,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2047,3): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(1894,58): warning C4101: 'existAngle': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2179,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2183,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2184,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2077,6): warning C4101: 'nSurfFeatSels': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2097,7): warning C4101: 'nParents': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2096,8): warning C4101: 'parentIds': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2408,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2409,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2410,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2411,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2288,74): warning C4101: 'dirEdgeItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2305,36): warning C4101: 'wSurfName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2510,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2511,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2512,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2513,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2442,61): warning C4101: 'dirSurfItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2442,74): warning C4101: 'dirEdgeItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2442,42): warning C4101: 'placementSurfItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2459,36): warning C4101: 'wSurfName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2611,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2612,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2613,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2614,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2543,61): warning C4101: 'dirSurfItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2543,74): warning C4101: 'dirEdgeItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2543,42): warning C4101: 'placementSurfItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2560,36): warning C4101: 'wSurfName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2715,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2716,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2717,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2718,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2647,61): warning C4101: 'dirSurfItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2647,74): warning C4101: 'dirEdgeItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2647,42): warning C4101: 'placementSurfItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2664,36): warning C4101: 'wSurfName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2819,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2820,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2821,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2822,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2751,61): warning C4101: 'dirSurfItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2751,74): warning C4101: 'dirEdgeItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2751,42): warning C4101: 'placementSurfItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2768,36): warning C4101: 'wSurfName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2934,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2935,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2936,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2937,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2965,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2967,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2888,60): warning C4101: 'capacitorLenVal': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2847,61): warning C4101: 'dirSurfItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2847,74): warning C4101: 'dirEdgeItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2971,15): warning C4101: 'reqNearestEdgeSel': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2847,42): warning C4101: 'placementSurfItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(2864,36): warning C4101: 'wSurfName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3318,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3319,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3320,2): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3321,2): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3198,74): warning C4101: 'dirEdgeItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3215,36): warning C4101: 'wSurfName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3346,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3347,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3344,10): warning C4101: 'UdfFilePath': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3409,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3410,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3407,10): warning C4101: 'UdfFilePath': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3473,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3474,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3471,10): warning C4101: 'UdfFilePath': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3538,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3540,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3536,10): warning C4101: 'UdfFilePath': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3605,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3606,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3603,10): warning C4101: 'UdfFilePath': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3670,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3671,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3668,10): warning C4101: 'UdfFilePath': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3734,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3735,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3732,10): warning C4101: 'UdfFilePath': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3797,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3798,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3795,10): warning C4101: 'UdfFilePath': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(4006,4): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3888,10): warning C4101: 'name': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3887,16): warning C4101: 'p_modelitem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3883,26): warning C4101: '_point2Feat': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3868,22): warning C4101: 'resultBtn': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3948,22): warning C4101: 'nearPnt3d': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(4429,4): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(4321,26): warning C4101: '_point2Feat': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(4304,22): warning C4101: 'resultBtn': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(4371,22): warning C4101: 'nearPnt3d': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(4651,16): warning C4101: 'fanout1Sel': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(4651,28): warning C4101: 'fanout2sel': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(4852,4): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(4744,26): warning C4101: '_point2Feat': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(4727,22): warning C4101: 'resultBtn': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(4794,22): warning C4101: 'nearPnt3d': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5074,16): warning C4101: 'fanout1Sel': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5074,28): warning C4101: 'fanout2sel': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5135,7): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5242,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5243,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5492,26): warning C4101: 'value': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5489,26): warning C4101: 'feature': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5493,26): warning C4101: 'name': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5505,8): warning C4101: 'n_select': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5502,11): warning C4101: 'wide_string': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5504,16): warning C4101: 'p_select': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5503,16): warning C4101: 'value_data': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5608,12): warning C4101: 'wDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5609,9): warning C4101: 'cDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5748,13): warning C4101: 'wDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5749,10): warning C4101: 'cDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5890,13): warning C4101: 'wDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5891,10): warning C4101: 'cDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5971,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(5972,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6004,12): warning C4101: 'wDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6005,9): warning C4101: 'cDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6090,100): warning C4101: 'point31': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6079,61): warning C4101: 'capacitorLenVal': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6090,82): warning C4101: 'point21': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6090,25): warning C4101: 'stem_length_by_2': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6090,91): warning C4101: 'point22': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6090,73): warning C4101: 'point12': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6090,64): warning C4101: 'point11': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6105,13): warning C4101: 'wDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6106,10): warning C4101: 'cDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6351,12): warning C4101: 'wDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6352,9): warning C4101: 'cDimName': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6476,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6477,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6399,14): warning C4101: 'comp_datum': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6400,15): warning C4101: 'SurfSelection1': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6422,16): warning C4101: 'curvMdlItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6451,16): warning C4101: 'curvMdlItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6535,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6536,2): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(6515,16): warning C4101: 'curvMdlItem': unreferenced local variable
+D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\dllmain.cpp(3456,1): warning C4715: 'executeSerpentineResistorPbAction': not all control paths return a value
+dllmain.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+     Creating library D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\x64\Debug\3DPrinter.lib and object D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\x64\Debug\3DPrinter.exp
+  3DPrinter.vcxproj -> D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\x64\Debug\3DPrinter.dll

@@ -1,0 +1,81 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <sstream>
+
+struct Node {
+    std::string ref;
+    std::string pin;
+};
+
+std::vector<std::vector<Node>> extractNodePairs(const std::string& netlist) {
+    std::vector<std::vector<Node>> nodePairs;
+    std::istringstream iss(netlist);
+    std::string line;
+
+    while (std::getline(iss, line)) {
+        if (line.find("(net") != std::string::npos) {
+            std::vector<Node> nodes;
+            while (std::getline(iss, line) && line.find("(net") == std::string::npos) {
+                if (line.find("(node") != std::string::npos) {
+                    Node node;
+                    size_t pos = line.find("ref");
+                    if (pos != std::string::npos) {
+                        node.ref = line.substr(pos + 5, line.find("\"", pos + 5) - pos - 5);
+                    }
+                    pos = line.find("pin");
+                    if (pos != std::string::npos) {
+                        node.pin = line.substr(pos + 5, line.find("\"", pos + 5) - pos - 5);
+                    }
+                    nodes.push_back(node);
+                }
+            }
+            if (!nodes.empty()) {
+                nodePairs.push_back(nodes);
+            }
+            if (iss.eof()) {
+                break;
+            }
+            iss.seekg(-static_cast<std::streamoff>(line.size() + 1), std::ios_base::cur);
+        }
+    }
+    return nodePairs;
+}
+
+int main() {
+    std::string netlist = "(nets\n"
+        "    (net (code \"1\") (name \"+3.3V\")\n"
+        "        (node (ref \"J1\") (pin \"1\") (pinfunction \"Pin_1\") (pintype \"passive\"))\n"
+        "        (node (ref \"R1\") (pin \"1\") (pintype \"passive\")))\n"
+        "    (net (code \"2\") (name \"GND\")\n"
+        "        (node (ref \"J1\") (pin \"3\") (pinfunction \"Pin_3\") (pintype \"passive\"))\n"
+        "        (node (ref \"Q1\") (pin \"3\") (pinfunction \"S\") (pintype \"passive\"))\n"
+        "        (node (ref \"R3\") (pin \"1\") (pintype \"passive\")))\n"
+        "    (net (code \"3\") (name \"Net-(D1-A)\")\n"
+        "        (node (ref \"D1\") (pin \"2\") (pinfunction \"A\") (pintype \"passive\"))\n"
+        "        (node (ref \"R1\") (pin \"2\") (pintype \"passive\")))\n"
+        "    (net (code \"4\") (name \"Net-(D1-K)\")\n"
+        "        (node (ref \"D1\") (pin \"1\") (pinfunction \"K\") (pintype \"passive\"))\n"
+        "        (node (ref \"Q1\") (pin \"1\") (pinfunction \"D\") (pintype \"passive\")))\n"
+        "    (net (code \"5\") (name \"Net-(J1-Pin_2)\")\n"
+        "        (node (ref \"J1\") (pin \"2\") (pinfunction \"Pin_2\") (pintype \"passive\"))\n"
+        "        (node (ref \"R2\") (pin \"1\") (pintype \"passive\")))\n"
+        "    (net (code \"6\") (name \"Net-(Q1-G)\")\n"
+        "        (node (ref \"Q1\") (pin \"2\") (pinfunction \"G\") (pintype \"input\"))\n"
+        "        (node (ref \"R2\") (pin \"2\") (pintype \"passive\"))\n"
+        "        (node (ref \"R3\") (pin \"2\") (pintype \"passive\"))))";
+
+    std::vector<std::vector<Node>> nodePairs = extractNodePairs(netlist);
+
+    for (const auto& pair : nodePairs) {
+        for (size_t i = 0; i < pair.size(); ++i) {
+            std::cout << pair[i].ref;
+            if (i < pair.size() - 1) {
+                std::cout << ", ";
+            }
+        }
+        std::cout << "\n";
+    }
+
+    return 0;
+}

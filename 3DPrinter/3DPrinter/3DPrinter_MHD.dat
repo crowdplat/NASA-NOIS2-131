@@ -1,0 +1,7 @@
+NAME PRINTER
+EXEC_FILE D:\Project Details\crowdplat\NASA-CREO\3DPrinter\3DPrinter\x64\Debug\3DPrinter.dll
+TEXT_DIR D:\Project Details\crowdplat\NASA-CREO\3DPrinter\text
+STARTUP dll
+allow_stop TRUE
+END
+

@@ -1,0 +1,7 @@
+NAME PRINTER
+EXEC_FILE C:\Users\venki\Downloads\3DPrinter (28)\3DPrinter (28)\3DPrinter\3DPrinter\x64\Debug\3DPrinter.dll
+TEXT_DIR C:\Users\venki\Downloads\3DPrinter (28)\3DPrinter (28)\3DPrinter\text
+STARTUP dll
+allow_stop TRUE
+END
+

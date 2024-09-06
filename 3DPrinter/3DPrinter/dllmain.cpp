@@ -1517,7 +1517,8 @@ ProError placeBondpadAction(char* dialog, char* component, ProAppData appdata)
 	if (status != PRO_TK_NO_ERROR) {
 		status = ProParameterWithUnitsCreate(&feats[7], L"NODE_NAME", &nodeNameParamVal, NULL, &nodeNameParam);
 	}
-	else {
+	else 
+	{
 		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
 	}
 
@@ -1529,44 +1530,55 @@ ProError placeBondpadAction(char* dialog, char* component, ProAppData appdata)
 	// X_OFFSET_CLEARANCE
 	status = ProParamvalueSet(&nodeNameParamVal, (void*)&xOffsetVal, PRO_PARAM_DOUBLE);
 	status = ProParameterInit(&feats[6], L"X_OFFSET_CLEARANCE", &nodeNameParam);
-	if (status != PRO_TK_NO_ERROR) {
+	if (status != PRO_TK_NO_ERROR)
+	{
+
 		status = ProParameterWithUnitsCreate(&feats[6], L"X_OFFSET_CLEARANCE", &nodeNameParamVal, NULL, &nodeNameParam);
 	}
-	else {
+	else 
+	{
 		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
 	}
 	status = ProParameterInit(&feats[0], L"X_OFFSET_CLEARANCE", &nodeNameParam);
-	if (status != PRO_TK_NO_ERROR) {
+	if (status != PRO_TK_NO_ERROR) 
+	{
 		status = ProParameterWithUnitsCreate(&feats[0], L"X_OFFSET_CLEARANCE", &nodeNameParamVal, NULL, &nodeNameParam);
 	}
-	else {
+	else 
+	{
 		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
 	}
 
 	// Y_OFFSET_CLEARANCE
 	status = ProParamvalueSet(&nodeNameParamVal, (void*)&yOffsetVal, PRO_PARAM_DOUBLE);
 	status = ProParameterInit(&feats[6], L"Y_OFFSET_CLEARANCE", &nodeNameParam);
-	if (status != PRO_TK_NO_ERROR) {
+	if (status != PRO_TK_NO_ERROR) 
+	{
 		status = ProParameterWithUnitsCreate(&feats[6], L"Y_OFFSET_CLEARANCE", &nodeNameParamVal, NULL, &nodeNameParam);
 	}
-	else {
+	else 
+	{
 		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
 	}
 	status = ProParameterInit(&feats[0], L"Y_OFFSET_CLEARANCE", &nodeNameParam);
-	if (status != PRO_TK_NO_ERROR) {
+	if (status != PRO_TK_NO_ERROR) 
+	{
 		status = ProParameterWithUnitsCreate(&feats[0], L"Y_OFFSET_CLEARANCE", &nodeNameParamVal, NULL, &nodeNameParam);
 	}
-	else {
+	else 
+	{
 		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
 	}
 
 	// FANOUT_TRACE_MARGIN
 	status = ProParamvalueSet(&nodeNameParamVal, (void*)&traceMarginVal, PRO_PARAM_DOUBLE);
 	status = ProParameterInit(&feats[6], L"FANOUT_TRACE_MARGIN", &nodeNameParam);
-	if (status != PRO_TK_NO_ERROR) {
+	if (status != PRO_TK_NO_ERROR) 
+	{
 		status = ProParameterWithUnitsCreate(&feats[6], L"FANOUT_TRACE_MARGIN", &nodeNameParamVal, NULL, &nodeNameParam);
 	}
-	else {
+	else
+	{
 		status = ProParameterValueWithUnitsSet(&nodeNameParam, &nodeNameParamVal, NULL);
 	}
 
@@ -1783,6 +1795,14 @@ ProError ProUtilCollectCurveComponentVisitAction(
 	return PRO_TK_NO_ERROR;
 }
 
+ProError placementCurveGeomCurveVisit(ProGeomitem* p_handle, ProError status, ProAppData app_data)
+{
+	ProGeomitem* point = (ProGeomitem*)app_data;
+	point[0] = p_handle[0];
+	return PRO_TK_NO_ERROR;
+}
+
+
 ProError featCurveGeomitemVisit(ProGeomitem& p_handle, ProError status, ProAppData app_data)
 {
 	//double* reqPnt = (double*)app_data;
@@ -1879,7 +1899,8 @@ ProError updateBondpadAction(char* dialog, char* component, ProAppData appdata)
 	status = ProUIInputpanelDoubleGet(UDFmodifyDialog, ip_y_ofst, &ofstY);
 	status = ProUIInputpanelDoubleGet(UDFmodifyDialog, ip_trace_margin, &traceMargin);
 
-	if (height <= 0 || width <= 0 || ofstX <= 0 || ofstY <= 0 || traceMargin <= 0) {
+	if (height <= 0 || width <= 0 || ofstX <= 0 || ofstY <= 0 || traceMargin <= 0)
+	{
 		ProUIMessageButton* buttons = nullptr;
 		ProArrayAlloc(1, sizeof(ProUIMessageButton), 1, (ProArray*)&buttons);
 		buttons[0] = PRO_UI_MESSAGE_OK;
@@ -2070,13 +2091,15 @@ ProError bondPadModifyAction(char* dialog, char* component, ProAppData appdata)
 	if (status != PRO_TK_NO_ERROR && nSurfFeatSels < 1){
 		return PRO_TK_NO_ERROR;
 	}*/
-	if (surfFeatItem.type == PRO_SURFACE) {
+	if (surfFeatItem.type == PRO_SURFACE)
+	{
 		int *parentIds;
 		int nParents;
 		status = ProGeomitemFeatureGet((ProGeomitem*)&surfFeatItem, &surfFeat);
 		status = ProFeatureGroupGet(&surfFeat, &bondpadGroup);
 	}
-	else if (surfFeatItem.type == PRO_FEATURE){
+	else if (surfFeatItem.type == PRO_FEATURE)
+	{
 		ProFeattype featType;
 		status = ProFeatureTypeGet((ProFeature*)&surfFeatItem, &featType);
 		if (featType != PRO_FEAT_DATUM_SURF)
@@ -2674,7 +2697,7 @@ ProError placeResistorNetwork1PbAction(char* dialog, char* component, ProAppData
 		bondpadUDFsels.push_back(pntPlacementSel[0]);
 		bondpadUDFsels.push_back(frontPlaneSel);
 		bondpadUDFsels.push_back(sidePlaneSel);
-		udfSuccess = LoadResistorUDF(CurMdl1, bondpadUdfpath, bondpadUDFsels, bondpadUDFFeat, NULL, PRO_B_FALSE, PRO_B_TRUE);
+		udfSuccess = LoadResistorUDF(CurMdl1, bondpadUdfpath, bondpadUDFsels, bondpadUDFFeat, NULL, PRO_B_FALSE, PRO_B_FALSE);
 	}
 
 	if (!udfSuccess) {
@@ -2778,7 +2801,7 @@ ProError placeResistorNetwork2PbAction(char* dialog, char* component, ProAppData
 		bondpadUDFsels.push_back(pntPlacementSel[0]);
 		bondpadUDFsels.push_back(sidePlaneSel);
 		bondpadUDFsels.push_back(frontPlaneSel);
-		udfSuccess = LoadResistorUDF(CurMdl1, bondpadUdfpath, bondpadUDFsels, bondpadUDFFeat, NULL, PRO_B_FALSE, PRO_B_TRUE);
+		udfSuccess = LoadResistorUDF(CurMdl1, bondpadUdfpath, bondpadUDFsels, bondpadUDFFeat, NULL, PRO_B_FALSE, PRO_B_FALSE);
 	}
 
 	if (!udfSuccess) {
@@ -2811,14 +2834,6 @@ ProError placeInterdigitatedCapacitorPbAction(char* dialog, char* component, Pro
 	ProError status;
 	ProMdl CurMdl1;
 	bool udfSuccess = false;
-
-	/*static char* ip_bondpad_side = "ip_bondpad_side_len", * ip_overall_len = "ip_overall_len", * ip_width = "ip_width", * ip_bondpad_to_cap_dist = "ip_bondpad_to_capacitor_dist";
-
-	double bondpadSideVal, overallLenVal, widthVal, bondpadToCapacitorDistVal;
-	status = ProUIInputpanelDoubleGet(dialog, ip_bondpad_side, &bondpadSideVal);
-	status = ProUIInputpanelDoubleGet(dialog, ip_overall_len, &overallLenVal);
-	status = ProUIInputpanelDoubleGet(dialog, ip_width, &widthVal);
-	status = ProUIInputpanelDoubleGet(dialog, ip_bondpad_to_cap_dist, &bondpadToCapacitorDistVal);*/
 
 	status = ProUIDialogHide(mainDialog);
 	status = ProUIDialogHide(dialog);
@@ -2867,14 +2882,32 @@ ProError placeInterdigitatedCapacitorPbAction(char* dialog, char* component, Pro
 
 	status = ProSelectionModelitemGet(pntPlacementSel[0], &placementRefItem);
 
+	// retrieve UI input data
+	static char* ip_contact_width = "ip_contact_width", * ip_contact_height = "ip_contact_height", * ip_feature_size = "ip_feature_size",
+		* ip_current_collector_width = "ip_current_collector_width", * ip_current_collector_height = "ip_current_collector_height", * ip_spacing = "ip_spacing", *ip_noofLegs = "ip_noofLegs";
+	double contactWidthVal, contactHeightVal, featureSizeVal, capacitorLenVal, currentCollectorWidthVal, currentCollectorHeightVal, spacingVal;
+	int noOfLegs;
+	status = ProUIInputpanelIntegerGet(capacitorParamsDialog, ip_noofLegs, &noOfLegs);	// no of legs
+	status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_feature_size, &featureSizeVal);	// (F)eature size
+	status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_spacing, &spacingVal);	// (S)pacing
+	status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_current_collector_width, &currentCollectorWidthVal);	// current collector width (ccw)
+	status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_current_collector_height, &currentCollectorHeightVal);	// current collector height (cch)
+	status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_contact_width, &contactWidthVal);	// contact width
+	status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_contact_height, &contactHeightVal);	// contact height
+
+	// calculated dims
+	double lenF = ((2 * noOfLegs) - 1) * featureSizeVal;
+	double lenS = ((2 * noOfLegs) - 2) * spacingVal;
+	double overallLength = lenF + lenS;
+
 	// IF SELECTED REF IS SURFACE
+	ProSelection frontPlaneSel, sidePlaneSel;
 	if (placementRefItem.type == PRO_SURFACE)
 	{
 		ProModelitem frontPlaneItem, sidePlaneItem;
 		status = ProModelitemByNameInit(CurMdl1, PRO_SURFACE, L"FRONT", &frontPlaneItem);
 		status = ProModelitemByNameInit(CurMdl1, PRO_SURFACE, L"SIDE", &sidePlaneItem);
 
-		ProSelection frontPlaneSel, sidePlaneSel;
 		status = ProSelectionAlloc(NULL, &frontPlaneItem, &frontPlaneSel);
 		status = ProSelectionAlloc(NULL, &sidePlaneItem, &sidePlaneSel);
 
@@ -2882,7 +2915,8 @@ ProError placeInterdigitatedCapacitorPbAction(char* dialog, char* component, Pro
 		bondpadUDFsels.push_back(pntPlacementSel[0]);
 		bondpadUDFsels.push_back(frontPlaneSel);
 		bondpadUDFsels.push_back(sidePlaneSel);
-		udfSuccess = LoadCapacitorUDF(CurMdl1, bondpadUdfpath, bondpadUDFsels, bondpadUDFFeat, NULL, PRO_B_FALSE, PRO_B_TRUE);
+		udfSuccess = LoadCapacitorUDF(CurMdl1, bondpadUdfpath, bondpadUDFsels, bondpadUDFFeat, PRO_B_TRUE);
+		bondpadUDFsels.clear();
 	}
 
 	if (!udfSuccess) {
@@ -2895,14 +2929,245 @@ ProError placeInterdigitatedCapacitorPbAction(char* dialog, char* component, Pro
 		return status;
 	}
 
-	ProFeature* feats = NULL;
-	status = ProGroupFeaturesCollect(&bondpadUDFFeat, &feats);
+	ProFeature* capacitorUDFfeats = NULL;
+	status = ProGroupFeaturesCollect(&bondpadUDFFeat, &capacitorUDFfeats);
 	wcscpy(wNode1Name, L"NODE_");
 	wcscat(wNode1Name, wPoint1Name);
 	wcscpy(wNode2Name, L"NODE_");
 	wcscat(wNode2Name, wPoint2Name);
-	status = ProModelitemNameSet(&feats[97], wNode1Name);
-	status = ProModelitemNameSet(&feats[98], wNode2Name);
+	status = ProModelitemNameSet(&capacitorUDFfeats[13], L"PLACEMENT_CURVE_1");
+	status = ProModelitemNameSet(&capacitorUDFfeats[31], L"PLACEMENT_CURVE_2");
+
+	ProAsmcomppath comp_path;
+	ProIdTable c_id_table;
+	c_id_table[0] = -1;
+	status = ProAsmcomppathInit((ProSolid)CurMdl1, c_id_table, 0, &comp_path);
+
+	ProModelitem placement_curve_1_item, placement_curve_2_item;
+	status = ProFeatureGeomitemVisit(&capacitorUDFfeats[13], PRO_CURVE, (ProGeomitemAction)placementCurveGeomCurveVisit, NULL, (ProAppData)&placement_curve_1_item);
+	status = ProFeatureGeomitemVisit(&capacitorUDFfeats[31], PRO_CURVE, (ProGeomitemAction)placementCurveGeomCurveVisit, NULL, (ProAppData)&placement_curve_2_item);
+
+	ProSelection placement_curve_1_sel, placement_curve_2_sel;
+	status = ProSelectionAlloc(&comp_path, &placement_curve_1_item, &placement_curve_1_sel);
+	status = ProSelectionAlloc(&comp_path, &placement_curve_2_item, &placement_curve_2_sel);
+
+	vector<ProSelection> leg_base_points_1_udf_input_sels, leg_base_points_2_udf_input_sels;
+
+	leg_base_points_1_udf_input_sels.push_back(placement_curve_1_sel);
+	leg_base_points_2_udf_input_sels.push_back(placement_curve_2_sel);
+
+	// length calculation
+	int multiplicationFactor = 1;
+
+	ProFeature legPoints1UDF, legPoints2UDF;
+	vector<ProFeature> legPoint1Feats, legPoint2Feats;
+	char legUdfpath[PRO_PATH_SIZE] = "";
+	strcpy(legUdfpath, cTextDirPath);
+	//strcat(bondpadUdfpath, "\\text\\UDF_LATEST\\interdigitated_capacitor_dim.gph");
+	strcat(legUdfpath, "\\text\\UDF_LATEST\\capacitor_legs_udf.gph.1");
+
+	ProSurface pntRefSurface;
+	ProContour externalContour;
+	ProSelection reqNearestEdgeSel;
+	ProEdge reqNearestEdge{};
+	status = ProGeomitemToSurface((ProGeomitem*)&placementRefItem, &pntRefSurface);
+	status = ProSurfaceContourVisit(pntRefSurface, placemetnSurfContourVisitAction, NULL, (ProAppData)&externalContour);
+	contourEdges.clear();
+	status = ProContourEdgeVisit(pntRefSurface, externalContour, contourEdgeVisitAction, NULL, NULL);
+
+	// fetching the direction edges
+	//double edge1Dist, edge2Dist;
+	//ProSelection edge1Sel, edge2Sel;
+	//ProGeomitem edgeGeomitem;
+	//ProModelitem edgeModelitem;
+	//Pro2dPnt param_1, param_2;
+	//Pro3dPnt pnt_1, pnt_2;
+	//// 1
+	//status = ProEdgeToGeomitem((ProSolid)CurMdl1, contourEdges[0], &edgeGeomitem);
+	//status = ProModelitemInit(edgeGeomitem.owner, edgeGeomitem.id, edgeGeomitem.type, &edgeModelitem);
+	//status = ProSelectionAlloc(NULL, &edgeModelitem, &edge1Sel);
+	//status = ProSelectionWithOptionsDistanceEval(placement_curve_1_sel, PRO_B_FALSE, edge1Sel, PRO_B_TRUE, param_1, param_2, pnt_1, pnt_1, &edge1Dist);
+	//// 2
+	//status = ProEdgeToGeomitem((ProSolid)CurMdl1, contourEdges[1], &edgeGeomitem);
+	//status = ProModelitemInit(edgeGeomitem.owner, edgeGeomitem.id, edgeGeomitem.type, &edgeModelitem);
+	//status = ProSelectionAlloc(NULL, &edgeModelitem, &edge2Sel);
+	//status = ProSelectionWithOptionsDistanceEval(placement_curve_1_sel, PRO_B_FALSE, edge2Sel, PRO_B_TRUE, param_1, param_2, pnt_1, pnt_1, &edge2Dist);
+
+	//if (edge1Dist < edge2Dist) {
+	//	ProSelectionCopy(edge1Sel, &reqNearestEdgeSel);
+	//	reqNearestEdge = contourEdges[0];
+	//}
+	//else if (edge2Dist < edge1Dist) {
+	//	ProSelectionCopy(edge2Sel, &reqNearestEdgeSel);
+	//	reqNearestEdge = contourEdges[1];
+	//}
+
+	//// finding the direction surface
+	//ProEdge pntRefEdge, neighborEdge1, neighborEdge2;
+	//ProSurface neighborSurf1, neighborSurf2;
+	//ProSrftype surfType;
+	//status = ProEdgeNeighborsGet(reqNearestEdge, &neighborEdge1, &neighborEdge2, &neighborSurf1, &neighborSurf2);
+	//status = ProSurfaceTypeGet(neighborSurf1, &surfType);
+	//if (surfType == PRO_SRF_PLANE)
+	//{
+	//	status = ProSurfaceToGeomitem((ProSolid)CurMdl1, neighborSurf1, &dirSurfItem);
+	//	status = ProSelectionAlloc(NULL, &dirSurfItem, &dirSurfSel);
+	//}
+	//status = ProSurfaceTypeGet(neighborSurf2, &surfType);
+	//if (surfType == PRO_SRF_PLANE)
+	//{
+	//	status = ProSurfaceToGeomitem((ProSolid)CurMdl1, neighborSurf2, &dirSurfItem);
+	//	status = ProSelectionAlloc(NULL, &dirSurfItem, &dirSurfSel);
+	//}
+
+	for (int i = 0; i < (noOfLegs*2)-2; ++i)
+	{
+		double lenBetweenPoints;
+		if (i == 0)
+		{
+			vector<ProSelection> leg_udf_input_sels;
+			ProModelitem point1Item, point2Item;
+			ProSelection point1Sel, point2Sel;
+			ProFeature* pointFeats = NULL;
+			ProFeature legFeat;
+
+			lenBetweenPoints = featureSizeVal;
+
+			// SIDE 1
+			udfSuccess = loadLegBasePointsUDF(CurMdl1, leg_base_points_1_udf_input_sels, lenBetweenPoints, legPoints1UDF);
+			status = ProFeatureGeomitemVisit(&capacitorUDFfeats[43], PRO_POINT, (ProGeomitemAction)featPointVisitAction, NULL, (ProAppData)&point1Item);
+			status = ProSelectionAlloc(&comp_path, &point1Item, &point1Sel);
+			leg_udf_input_sels.push_back(point1Sel);
+			leg_udf_input_sels.push_back(pntPlacementSel[0]);
+			leg_udf_input_sels.push_back(sidePlaneSel);
+			
+			status = ProGroupFeaturesCollect(&legPoints1UDF, &pointFeats);
+			status = ProFeatureGeomitemVisit(&pointFeats[1], PRO_POINT, (ProGeomitemAction)featPointVisitAction, NULL, (ProAppData)&point2Item);
+			status = ProSelectionAlloc(&comp_path, &point2Item, &point2Sel);
+			leg_udf_input_sels.push_back(point2Sel);
+
+			udfSuccess = LoadBondpadUDF(CurMdl1, legUdfpath, leg_udf_input_sels, legFeat, NULL, PRO_B_FALSE, PRO_B_FALSE);
+			leg_udf_input_sels.clear();
+
+			// SIDE 2
+			udfSuccess = loadLegBasePointsUDF(CurMdl1, leg_base_points_2_udf_input_sels, lenBetweenPoints, legPoints2UDF);
+
+			status = ProFeatureGeomitemVisit(&capacitorUDFfeats[40], PRO_POINT, (ProGeomitemAction)featPointVisitAction, NULL, (ProAppData)&point1Item);
+			status = ProSelectionAlloc(&comp_path, &point1Item, &point1Sel);
+			leg_udf_input_sels.push_back(point1Sel);
+			leg_udf_input_sels.push_back(pntPlacementSel[0]);
+			leg_udf_input_sels.push_back(sidePlaneSel);
+
+			status = ProGroupFeaturesCollect(&legPoints2UDF, &pointFeats);
+			status = ProFeatureGeomitemVisit(&pointFeats[1], PRO_POINT, (ProGeomitemAction)featPointVisitAction, NULL, (ProAppData)&point2Item);
+			status = ProSelectionAlloc(&comp_path, &point2Item, &point2Sel);
+			leg_udf_input_sels.push_back(point2Sel);
+
+			udfSuccess = LoadBondpadUDF(CurMdl1, legUdfpath, leg_udf_input_sels, legFeat, NULL, PRO_B_FALSE, PRO_B_FALSE);
+			leg_udf_input_sels.clear();
+		}
+		else if (i % 2 == 0)
+		{
+			lenBetweenPoints = (multiplicationFactor * (2 * featureSizeVal + 2 * spacingVal)) + featureSizeVal;
+			vector<ProSelection> leg_udf_input_sels;
+			ProModelitem pointItem;
+			ProSelection pointSel;
+			ProFeature* pointFeats = NULL;
+			ProFeature legFeat;
+
+			// SIDE 1
+			udfSuccess = loadLegBasePointsUDF(CurMdl1, leg_base_points_1_udf_input_sels, lenBetweenPoints, legPoints1UDF);
+			legPoint1Feats.push_back(legPoints1UDF);
+			for (int j = 0; j < legPoint1Feats.size(); ++j)
+			{
+				status = ProGroupFeaturesCollect(&legPoint1Feats[j], &pointFeats);
+				status = ProFeatureGeomitemVisit(&pointFeats[1], PRO_POINT, (ProGeomitemAction)featPointVisitAction, NULL, (ProAppData)&pointItem);
+				status = ProSelectionAlloc(&comp_path, &pointItem, &pointSel);
+				leg_udf_input_sels.push_back(pointSel);
+				if (j == 0) // runs only once in the loop
+				{
+					leg_udf_input_sels.push_back(pntPlacementSel[0]);
+					leg_udf_input_sels.push_back(sidePlaneSel);
+				}
+			}
+			udfSuccess = LoadBondpadUDF(CurMdl1, legUdfpath, leg_udf_input_sels, legFeat, NULL, PRO_B_FALSE, PRO_B_FALSE);
+			leg_udf_input_sels.clear();
+
+			// SIDE 2
+			udfSuccess = loadLegBasePointsUDF(CurMdl1, leg_base_points_2_udf_input_sels, lenBetweenPoints, legPoints2UDF);
+			legPoint2Feats.push_back(legPoints2UDF);
+			for (int j = 0; j < legPoint2Feats.size(); ++j)
+			{
+				status = ProGroupFeaturesCollect(&legPoint2Feats[j], &pointFeats);
+				status = ProFeatureGeomitemVisit(&pointFeats[1], PRO_POINT, (ProGeomitemAction)featPointVisitAction, NULL, (ProAppData)&pointItem);
+				status = ProSelectionAlloc(&comp_path, &pointItem, &pointSel);
+				leg_udf_input_sels.push_back(pointSel);
+				if (j == 0) // runs only once in the loop
+				{
+					leg_udf_input_sels.push_back(pntPlacementSel[0]);
+					leg_udf_input_sels.push_back(sidePlaneSel);
+				}
+			}
+			udfSuccess = LoadBondpadUDF(CurMdl1, legUdfpath, leg_udf_input_sels, legFeat, NULL, PRO_B_FALSE, PRO_B_FALSE);
+			leg_udf_input_sels.clear();
+
+			multiplicationFactor++;
+
+			legPoint1Feats.clear();
+			legPoint2Feats.clear();
+		}
+		else
+		{
+			lenBetweenPoints = (multiplicationFactor * (2 * featureSizeVal + 2 * spacingVal));
+			vector<ProSelection> leg_udf_input_sels;
+			ProModelitem point1Item, point2Item;
+			ProSelection point1Sel, point2Sel;
+			ProFeature* pointFeats = NULL;
+			ProFeature legFeat;
+
+			udfSuccess = loadLegBasePointsUDF(CurMdl1, leg_base_points_1_udf_input_sels, lenBetweenPoints, legPoints1UDF);
+			legPoint1Feats.push_back(legPoints1UDF);
+			udfSuccess = loadLegBasePointsUDF(CurMdl1, leg_base_points_2_udf_input_sels, lenBetweenPoints, legPoints2UDF);
+			legPoint2Feats.push_back(legPoints2UDF);
+			if (i == (noOfLegs * 2) - 3)
+			{
+				// SIDE 1
+				status = ProFeatureGeomitemVisit(&capacitorUDFfeats[42], PRO_POINT, (ProGeomitemAction)featPointVisitAction, NULL, (ProAppData)&point1Item);
+				status = ProSelectionAlloc(&comp_path, &point1Item, &point1Sel);
+
+				leg_udf_input_sels.push_back(point1Sel);
+				leg_udf_input_sels.push_back(pntPlacementSel[0]);
+				leg_udf_input_sels.push_back(sidePlaneSel);
+
+				status = ProGroupFeaturesCollect(&legPoints1UDF, &pointFeats);
+				status = ProFeatureGeomitemVisit(&pointFeats[1], PRO_POINT, (ProGeomitemAction)featPointVisitAction, NULL, (ProAppData)&point2Item);
+				status = ProSelectionAlloc(&comp_path, &point2Item, &point2Sel);
+				leg_udf_input_sels.push_back(point2Sel);
+				udfSuccess = LoadBondpadUDF(CurMdl1, legUdfpath, leg_udf_input_sels, legFeat, NULL, PRO_B_FALSE, PRO_B_FALSE);
+				leg_udf_input_sels.clear();
+
+				// SIDE 2
+				status = ProFeatureGeomitemVisit(&capacitorUDFfeats[41], PRO_POINT, (ProGeomitemAction)featPointVisitAction, NULL, (ProAppData)&point1Item);
+				status = ProSelectionAlloc(&comp_path, &point1Item, &point1Sel);
+	 
+				leg_udf_input_sels.push_back(point1Sel);
+				leg_udf_input_sels.push_back(pntPlacementSel[0]);
+				leg_udf_input_sels.push_back(sidePlaneSel);
+
+				status = ProGroupFeaturesCollect(&legPoints2UDF, &pointFeats);
+				status = ProFeatureGeomitemVisit(&pointFeats[1], PRO_POINT, (ProGeomitemAction)featPointVisitAction, NULL, (ProAppData)&point2Item);
+				status = ProSelectionAlloc(&comp_path, &point2Item, &point2Sel);
+				leg_udf_input_sels.push_back(point2Sel);
+				udfSuccess = LoadBondpadUDF(CurMdl1, legUdfpath, leg_udf_input_sels, legFeat, NULL, PRO_B_FALSE, PRO_B_FALSE);
+				leg_udf_input_sels.clear();
+			}
+		}
+		
+	}
+	legPoint1Feats.clear();
+	legPoint2Feats.clear();
+	leg_base_points_1_udf_input_sels.clear();
+	leg_base_points_2_udf_input_sels.clear();
 
 	status = ProUIDialogShow(mainDialog);
 	status = ProUIDialogExit(dialog, PRO_TK_NO_ERROR);
@@ -3271,7 +3536,8 @@ ProError executeInterdigitatedCapacitorPbAction(char* dialog, char* component, P
 	ProPath UdfFilePath;
 	char bondpadUdfpath[PRO_PATH_SIZE] = "";
 	strcpy(bondpadUdfpath, cTextDirPath);
-	strcat(bondpadUdfpath, "\\text\\UDF_LATEST\\interdigitated_capacitor_dim.gph");
+	//strcat(bondpadUdfpath, "\\text\\UDF_LATEST\\interdigitated_capacitor_dim.gph");
+	strcat(bondpadUdfpath, "\\text\\UDF_LATEST\\interdigit_capacitor_body.gph");
 
 	status = ProUIDialogAboveactivewindowSet(capacitorParamsDialog, PRO_B_FALSE);
 	status = ProUIPushbuttonActivateActionSet(capacitorParamsDialog, okbtn, (ProUIAction)placeInterdigitatedCapacitorPbAction, (ProAppData)bondpadUdfpath);
@@ -3618,6 +3884,8 @@ int createFanOut(string point1Name, string point2Name, ProMdl CurMdl1, vector<Po
 	vector<ProFeature> geomItems;
 	ProParameter fanoutParam;
 	ProParamvalue fanoutParamVal;
+	ProModelitem* p_modelitem;
+	ProName name;
 	double p1XoffsetVal = 0, p1YoffsetVal = 0, p2XoffsetVal = 0, p2YoffsetVal = 0, finalXoffsetVal = 0, finalYoffsetVal = 0, traceMarginVal = 0;
 
 	isFeatFound = GetFeatureByName(CurMdl1, _point1Name, _point1Feat);
@@ -3626,9 +3894,22 @@ int createFanOut(string point1Name, string point2Name, ProMdl CurMdl1, vector<Po
 	}
 	/*GetGeomItems(CurMdl1, _point1Feat, geomItems)*/;
 	status = ProParameterInit(&_point1Feat, L"X_OFFSET_CLEARANCE", &fanoutParam);
-	if (status == PRO_TK_NO_ERROR) {
+	if (status == PRO_TK_NO_ERROR) 
+	{
 		status = ProParameterValueWithUnitsGet(&fanoutParam, &fanoutParamVal, NULL);
 		p1XoffsetVal = fanoutParamVal.value.d_val;
+	}
+	else
+	{
+		ProDrawing drawing;
+		ProModelitem model_item;
+		ProParamvalue param_value;
+		ProParameter parameter;
+		status = ProMdlCurrentGet((ProMdl*) &drawing);
+		status = ProMdlToModelitem(drawing, &model_item);
+		param_value.type = PRO_PARAM_DOUBLE;
+		param_value.value.d_val = 0;
+		status = ProParameterWithUnitsCreate(&model_item, L"X_OFFSET_CLEARANCE", &param_value, NULL, &parameter);
 	}
 	status = ProParameterInit(&_point1Feat, L"Y_OFFSET_CLEARANCE", &fanoutParam);
 	if (status == PRO_TK_NO_ERROR) {
@@ -5679,7 +5960,87 @@ bool LoadResistorUDF(ProMdl Mdl, string UDFFileName, vector<ProSelection>& UDFIn
 	return isCreatedUDF;
 }
 
-bool LoadCapacitorUDF(ProMdl Mdl, string UDFFileName, vector<ProSelection>& UDFInputs, ProFeature& UDFGrpFeat, ProAsmcomppath* asmCompPath, ProBoolean RefAsm /*For Asm it is TRUE*/, ProBoolean modifyDim)
+bool loadLegBasePointsUDF(ProMdl Mdl, vector<ProSelection>& UDFInputs, double lenBetweenPoints, ProFeature& UDFGrpFeat)
+{
+	ProError status = PRO_TK_NO_ERROR;
+	bool isCreatedUDF = false;
+	ProUdfdata UdfData = NULL;
+	status = ProUdfdataAlloc(&UdfData);
+	ProPath UdfFilePath;
+	char bondpadUdfpath[PRO_PATH_SIZE] = "";
+	strcpy(bondpadUdfpath, cTextDirPath);
+	strcat(bondpadUdfpath, "\\text\\UDF_LATEST\\capacitor_leg_point_udf.gph");
+	ProStringToWstring(UdfFilePath, bondpadUdfpath);
+
+	status = ProUdfdataPathSet(UdfData, UdfFilePath);
+
+	ProUdfRequiredRef* requiredRef;
+	int sizeRef = 0;
+	ProUdfreference* udfReference = NULL;
+
+	status = ProUdfdataRequiredreferencesGet(UdfData, &requiredRef);
+	status = ProArraySizeGet(requiredRef, &sizeRef);
+	status = ProArrayAlloc(sizeRef, sizeof(ProUdfreference), 1, (ProArray*)&udfReference);
+	status = ProUdfdataDimdisplaySet(UdfData, PROUDFDIMDISP_NORMAL);
+	for (int i = 0; i < sizeRef; i++)
+	{
+		udfReference[i] = NULL;
+		ProLine prompt;
+		ProType type;
+		status = ProUdfrequiredrefPromptGet(requiredRef[i], prompt);
+		status = ProUdfrequiredrefTypeGet(requiredRef[i], &type);
+		status = ProUdfreferenceAlloc(prompt, UDFInputs[i], PRO_B_TRUE, &udfReference[i]); //For Assembly RefAsm = TRUE
+		status = ProUdfdataReferenceAdd(UdfData, udfReference[i]);
+	}
+
+	ProUdfvardim* var_dim_array;
+	status = ProUdfdataVardimsGet(UdfData, &var_dim_array);
+	if (status == PRO_TK_NO_ERROR)
+	{
+		int sizeVarDims;
+		status = ProArraySizeGet(var_dim_array, &sizeVarDims);
+		for (int i = 0; i < sizeVarDims; i++)
+		{
+			wchar_t wDimName[PRO_NAME_SIZE];
+			char cDimName[PRO_NAME_SIZE], cPrompt[PRO_NAME_SIZE];
+			ProLine wPrompt;
+			ProUdfVardimType value_type;
+			double defaultDimVal = 0;
+
+			status = ProUdfvardimDefaultvalueGet(var_dim_array[i], &value_type, &defaultDimVal);
+			status = ProUdfvardimPromptGet(var_dim_array[i], wPrompt);
+			ProWstringToString(cPrompt, wPrompt);
+
+			if (strcmp(cPrompt, "length") == 0) {
+				status = ProUdfvardimValueSet(var_dim_array[i], lenBetweenPoints);
+			}
+			status = ProUdfdataUdfvardimAdd(UdfData, var_dim_array[i]);	// adding the vardim to UdfData
+		}
+		ProUdfvardimProarrayFree(var_dim_array);
+	}
+
+	for (int i = 0; i < sizeRef; i++)
+	{
+		status = ProUdfreferenceFree(udfReference[i]);
+		udfReference[i] = NULL;
+	}
+	status = ProArrayFree((ProArray*)&udfReference);
+	udfReference = NULL;
+
+	ProUdfCreateOption option[] = { PROUDFOPT_FIX_MODEL_UI_OFF };
+
+	ProFeature createdFeature;
+	status = ProUdfCreate((ProSolid)Mdl, UdfData, NULL, option, 1, &createdFeature);
+	if (status == PRO_TK_NO_ERROR)
+		isCreatedUDF = true;
+	UDFGrpFeat = createdFeature;
+
+	status = ProTreetoolRefresh((ProSolid)Mdl);
+
+	return isCreatedUDF;
+}
+
+bool LoadCapacitorUDF(ProMdl Mdl, string UDFFileName, vector<ProSelection>& UDFInputs, ProFeature& UDFGrpFeat, ProBoolean modifyDim)
 {
 	ProError status = PRO_TK_NO_ERROR;
 	bool isCreatedUDF = false;
@@ -5706,38 +6067,32 @@ bool LoadCapacitorUDF(ProMdl Mdl, string UDFFileName, vector<ProSelection>& UDFI
 		ProType type;
 		status = ProUdfrequiredrefPromptGet(requiredRef[i], prompt);
 		status = ProUdfrequiredrefTypeGet(requiredRef[i], &type);
-		status = ProUdfreferenceAlloc(prompt, UDFInputs[i], RefAsm, &udfReference[i]); //For Assembly RefAsm = TRUE
+		status = ProUdfreferenceAlloc(prompt, UDFInputs[i], PRO_B_FALSE, &udfReference[i]); //For Assembly RefAsm = TRUE
 		status = ProUdfdataReferenceAdd(UdfData, udfReference[i]);
 	}
 
 	if (modifyDim)
 	{
 		// UPDATE DIMS
-		static char* ip_contact_width = "ip_contact_width", * ip_contact_height = "ip_contact_height", * ip_feature_size = "ip_feature_size", 
-			* ip_current_collector_width = "ip_current_collector_width", *ip_current_collector_height = "ip_current_collector_height" ,
-			* ip_capacitor_len = "ip_capacitor_len", * ip_spacing = "ip_spacing";
-
+		static char* ip_contact_width = "ip_contact_width", * ip_contact_height = "ip_contact_height", * ip_feature_size = "ip_feature_size",
+			* ip_current_collector_width = "ip_current_collector_width", * ip_current_collector_height = "ip_current_collector_height", * ip_spacing = "ip_spacing", * ip_noofLegs = "ip_noofLegs";
 		double contactWidthVal, contactHeightVal, featureSizeVal, capacitorLenVal, currentCollectorWidthVal, currentCollectorHeightVal, spacingVal;
+		int noOfLegs;
+		status = ProUIInputpanelIntegerGet(capacitorParamsDialog, ip_noofLegs, &noOfLegs);	// no of legs
 		status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_feature_size, &featureSizeVal);	// (F)eature size
-		status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_capacitor_len, &capacitorLenVal);	// (L)ength
 		status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_spacing, &spacingVal);	// (S)pacing
 		status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_current_collector_width, &currentCollectorWidthVal);	// current collector width (ccw)
 		status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_current_collector_height, &currentCollectorHeightVal);	// current collector height (cch)
 		status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_contact_width, &contactWidthVal);	// contact width
 		status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_contact_height, &contactHeightVal);	// contact height
-		
+
 		// calculated dims
 		double overallLenVal, stem_length_by_2, bondpadShortSideVal, point11, point12, point21, point22, point31, offsetDistVal;
-		overallLenVal = ((featureSizeVal * 7.0) + (spacingVal * 12.0) + (featureSizeVal * 6.0));
-		stem_length_by_2 = (featureSizeVal * 6) + (spacingVal * 6.0);
+		double lenF = ((2 * noOfLegs) - 1) * featureSizeVal;
+		double lenS = ((2 * noOfLegs) - 2) * spacingVal;
+		overallLenVal = lenF + lenS;
 		bondpadShortSideVal = (contactHeightVal / 2.0) - (currentCollectorHeightVal / 2.0);
 		offsetDistVal = spacingVal + featureSizeVal;
-
-		point11 = (spacingVal * 2.0) + (featureSizeVal * 2.0);
-		point12 = (spacingVal * 2.0) + (featureSizeVal * 3.0);
-		point21 = (spacingVal * 4.0) + (featureSizeVal * 4.0);
-		point22 = (spacingVal * 4.0) + (featureSizeVal * 5.0);
-		point31 = (overallLenVal - featureSizeVal /*middle capacitor*/ )/2.0;
 
 		ProUdfvardim* var_dim_array;
 		status = ProUdfdataVardimsGet(UdfData, &var_dim_array);
@@ -5763,70 +6118,194 @@ bool LoadCapacitorUDF(ProMdl Mdl, string UDFFileName, vector<ProSelection>& UDFI
 				else if (strcmp(cPrompt, "contact_width") == 0) {
 					status = ProUdfvardimValueSet(var_dim_array[i], contactWidthVal);
 				}
-				else if (strcmp(cPrompt, "stem_length_by_2") == 0) {
-					status = ProUdfvardimValueSet(var_dim_array[i], stem_length_by_2);
-				}
 				else if (strcmp(cPrompt, "bondpad_short_side") == 0) {
 					status = ProUdfvardimValueSet(var_dim_array[i], bondpadShortSideVal);
 				}
 				else if (strcmp(cPrompt, "current_collector_width") == 0) {
 					status = ProUdfvardimValueSet(var_dim_array[i], currentCollectorWidthVal);
 				}
-				else if (strcmp(cPrompt, "capacitor_len") == 0) {
-					status = ProUdfvardimValueSet(var_dim_array[i], capacitorLenVal);
-				}
 				else if (strcmp(cPrompt, "feature_size") == 0) {
 					status = ProUdfvardimValueSet(var_dim_array[i], featureSizeVal);
-				}
-				else if (strcmp(cPrompt, "point11_dist") == 0) {
-					status = ProUdfvardimValueSet(var_dim_array[i], point11);
-				}
-				else if (strcmp(cPrompt, "point12_dist") == 0) {
-					status = ProUdfvardimValueSet(var_dim_array[i], point12);
-				}
-				else if (strcmp(cPrompt, "point21_dist") == 0) {
-					status = ProUdfvardimValueSet(var_dim_array[i], point21);
-				}
-				else if (strcmp(cPrompt, "point22_dist") == 0) {
-					status = ProUdfvardimValueSet(var_dim_array[i], point22);
-				}
-				else if (strcmp(cPrompt, "point31_dist") == 0) {
-					status = ProUdfvardimValueSet(var_dim_array[i], point31);
 				}
 				else if (strcmp(cPrompt, "offset_dist") == 0) {
 					status = ProUdfvardimValueSet(var_dim_array[i], offsetDistVal);
 				}
 				else if (strcmp(cPrompt, "overall_len_by_2") == 0) {
-					status = ProUdfvardimValueSet(var_dim_array[i], (overallLenVal - currentCollectorHeightVal)/2.0);
+					status = ProUdfvardimValueSet(var_dim_array[i], (overallLenVal - currentCollectorHeightVal) / 2.0);
 				}
 				status = ProUdfdataUdfvardimAdd(UdfData, var_dim_array[i]);	// adding the vardim to UdfData
 			}
 			ProUdfvardimProarrayFree(var_dim_array);
 		}
-
-		for (int i = 0; i < sizeRef; i++)
-		{
-			status = ProUdfreferenceFree(udfReference[i]);
-			udfReference[i] = NULL;
-		}
-		status = ProArrayFree((ProArray*)&udfReference);
-		udfReference = NULL;
-
-		//ProUdfCreateOption option[] = { PROUDFOPT_EDIT_MENU };
-		ProUdfCreateOption option[] = { PROUDFOPT_FIX_MODEL_UI_OFF };
-
-		ProFeature createdFeature;
-		status = ProUdfCreate((ProSolid)Mdl, UdfData, NULL, option, 1, &createdFeature);
-		if (status == PRO_TK_NO_ERROR)
-			isCreatedUDF = true;
-		UDFGrpFeat = createdFeature;
-
-		status = ProTreetoolRefresh((ProSolid)Mdl);
-
-		return isCreatedUDF;
 	}
+	for (int i = 0; i < sizeRef; i++)
+	{
+		status = ProUdfreferenceFree(udfReference[i]);
+		udfReference[i] = NULL;
+	}
+	status = ProArrayFree((ProArray*)&udfReference);
+	udfReference = NULL;
+
+	ProUdfCreateOption option[] = { PROUDFOPT_FIX_MODEL_UI_OFF };
+
+	ProFeature createdFeature;
+	status = ProUdfCreate((ProSolid)Mdl, UdfData, NULL, option, 1, &createdFeature);
+	if (status == PRO_TK_NO_ERROR)
+		isCreatedUDF = true;
+	UDFGrpFeat = createdFeature;
+
+	status = ProTreetoolRefresh((ProSolid)Mdl);
+
+	return isCreatedUDF;
 }
 
+//bool LoadCapacitorUDF(ProMdl Mdl, string UDFFileName, vector<ProSelection>& UDFInputs, ProFeature& UDFGrpFeat, ProAsmcomppath* asmCompPath, ProBoolean RefAsm /*For Asm it is TRUE*/, ProBoolean modifyDim, double& overllLen)
+//{
+//	ProError status = PRO_TK_NO_ERROR;
+//	bool isCreatedUDF = false;
+//	ProUdfdata UdfData = NULL;
+//	status = ProUdfdataAlloc(&UdfData);
+//	ProPath UdfFilePath;
+//
+//	ProStringToWstring(UdfFilePath, (char*)UDFFileName.c_str());
+//
+//	status = ProUdfdataPathSet(UdfData, UdfFilePath);
+//
+//	ProUdfRequiredRef* requiredRef;
+//	int sizeRef = 0;
+//	ProUdfreference* udfReference = NULL;
+//
+//	status = ProUdfdataRequiredreferencesGet(UdfData, &requiredRef);
+//	status = ProArraySizeGet(requiredRef, &sizeRef);
+//	status = ProArrayAlloc(sizeRef, sizeof(ProUdfreference), 1, (ProArray*)&udfReference);
+//	status = ProUdfdataDimdisplaySet(UdfData, PROUDFDIMDISP_NORMAL);
+//	for (int i = 0; i < sizeRef; i++)
+//	{
+//		udfReference[i] = NULL;
+//		ProLine prompt;
+//		ProType type;
+//		status = ProUdfrequiredrefPromptGet(requiredRef[i], prompt);
+//		status = ProUdfrequiredrefTypeGet(requiredRef[i], &type);
+//		status = ProUdfreferenceAlloc(prompt, UDFInputs[i], RefAsm, &udfReference[i]); //For Assembly RefAsm = TRUE
+//		status = ProUdfdataReferenceAdd(UdfData, udfReference[i]);
+//	}
+//
+//	if (modifyDim)
+//	{
+//		// UPDATE DIMS
+//		static char* ip_contact_width = "ip_contact_width", * ip_contact_height = "ip_contact_height", * ip_feature_size = "ip_feature_size",
+//			* ip_current_collector_width = "ip_current_collector_width", * ip_current_collector_height = "ip_current_collector_height",
+//			* ip_capacitor_len = "ip_capacitor_len", * ip_spacing = "ip_spacing";
+//
+//		double contactWidthVal, contactHeightVal, featureSizeVal, capacitorLenVal, currentCollectorWidthVal, currentCollectorHeightVal, spacingVal;
+//		status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_feature_size, &featureSizeVal);	// (F)eature size
+//		status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_capacitor_len, &capacitorLenVal);	// (L)ength
+//		status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_spacing, &spacingVal);	// (S)pacing
+//		status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_current_collector_width, &currentCollectorWidthVal);	// current collector width (ccw)
+//		status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_current_collector_height, &currentCollectorHeightVal);	// current collector height (cch)
+//		status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_contact_width, &contactWidthVal);	// contact width
+//		status = ProUIInputpanelDoubleGet(capacitorParamsDialog, ip_contact_height, &contactHeightVal);	// contact height
+//
+//		// calculated dims
+//		double overallLenVal, stem_length_by_2, bondpadShortSideVal, point11, point12, point21, point22, point31, offsetDistVal;
+//		overallLenVal = ((featureSizeVal * 5.0) + (spacingVal * 10.0) + (featureSizeVal * 5.0));
+//		overllLen = overallLenVal - currentCollectorHeightVal;
+//		stem_length_by_2 = (featureSizeVal * 6.0) + (spacingVal * 6.0);
+//		bondpadShortSideVal = (contactHeightVal / 2.0) - (currentCollectorHeightVal / 2.0);
+//		offsetDistVal = spacingVal + featureSizeVal;
+//
+//		point11 = (spacingVal * 2.0) + (featureSizeVal * 2.0);
+//		point12 = (spacingVal * 2.0) + (featureSizeVal * 2.1);
+//		point21 = (spacingVal * 4.0) + (featureSizeVal * 4.0);
+//		point22 = (spacingVal * 4.0) + (featureSizeVal * 4.1);
+//		point31 = (overallLenVal - featureSizeVal /*middle capacitor*/) / 2.0;
+//
+//		ProUdfvardim* var_dim_array;
+//		status = ProUdfdataVardimsGet(UdfData, &var_dim_array);
+//		if (status == PRO_TK_NO_ERROR)
+//		{
+//			int sizeVarDims;
+//			status = ProArraySizeGet(var_dim_array, &sizeVarDims);
+//			for (int i = 0; i < sizeVarDims; i++)
+//			{
+//				wchar_t wDimName[PRO_NAME_SIZE];
+//				char cDimName[PRO_NAME_SIZE], cPrompt[PRO_NAME_SIZE];
+//				ProLine wPrompt;
+//				ProUdfVardimType value_type;
+//				double defaultDimVal = 0;
+//
+//				status = ProUdfvardimDefaultvalueGet(var_dim_array[i], &value_type, &defaultDimVal);
+//				status = ProUdfvardimPromptGet(var_dim_array[i], wPrompt);
+//				ProWstringToString(cPrompt, wPrompt);
+//
+//				if (strcmp(cPrompt, "contact_height") == 0) {
+//					status = ProUdfvardimValueSet(var_dim_array[i], contactHeightVal);
+//				}
+//				else if (strcmp(cPrompt, "contact_width") == 0) {
+//					status = ProUdfvardimValueSet(var_dim_array[i], contactWidthVal);
+//				}
+//				else if (strcmp(cPrompt, "stem_length_by_2") == 0) {
+//					status = ProUdfvardimValueSet(var_dim_array[i], stem_length_by_2);
+//				}
+//				else if (strcmp(cPrompt, "bondpad_short_side") == 0) {
+//					status = ProUdfvardimValueSet(var_dim_array[i], bondpadShortSideVal);
+//				}
+//				else if (strcmp(cPrompt, "current_collector_width") == 0) {
+//					status = ProUdfvardimValueSet(var_dim_array[i], currentCollectorWidthVal);
+//				}
+//				else if (strcmp(cPrompt, "capacitor_len") == 0) {
+//					status = ProUdfvardimValueSet(var_dim_array[i], capacitorLenVal);
+//				}
+//				else if (strcmp(cPrompt, "feature_size") == 0) {
+//					status = ProUdfvardimValueSet(var_dim_array[i], featureSizeVal);
+//				}
+//				else if (strcmp(cPrompt, "point11_dist") == 0) {
+//					status = ProUdfvardimValueSet(var_dim_array[i], point11);
+//				}
+//				else if (strcmp(cPrompt, "point12_dist") == 0) {
+//					status = ProUdfvardimValueSet(var_dim_array[i], point12);
+//				}
+//				else if (strcmp(cPrompt, "point21_dist") == 0) {
+//					status = ProUdfvardimValueSet(var_dim_array[i], point21);
+//				}
+//				else if (strcmp(cPrompt, "point22_dist") == 0) {
+//					status = ProUdfvardimValueSet(var_dim_array[i], point22);
+//				}
+//				else if (strcmp(cPrompt, "point31_dist") == 0) {
+//					status = ProUdfvardimValueSet(var_dim_array[i], point31);
+//				}
+//				else if (strcmp(cPrompt, "offset_dist") == 0) {
+//					status = ProUdfvardimValueSet(var_dim_array[i], offsetDistVal);
+//				}
+//				else if (strcmp(cPrompt, "overall_len_by_2") == 0) {
+//					status = ProUdfvardimValueSet(var_dim_array[i], (overallLenVal - currentCollectorHeightVal) / 2.0);
+//				}
+//				status = ProUdfdataUdfvardimAdd(UdfData, var_dim_array[i]);	// adding the vardim to UdfData
+//			}
+//			ProUdfvardimProarrayFree(var_dim_array);
+//		}
+//	}
+//	for (int i = 0; i < sizeRef; i++)
+//	{
+//		status = ProUdfreferenceFree(udfReference[i]);
+//		udfReference[i] = NULL;
+//	}
+//	status = ProArrayFree((ProArray*)&udfReference);
+//	udfReference = NULL;
+//
+//	//ProUdfCreateOption option[] = { PROUDFOPT_EDIT_MENU };
+//	ProUdfCreateOption option[] = { PROUDFOPT_FIX_MODEL_UI_OFF };
+//
+//	ProFeature createdFeature;
+//	status = ProUdfCreate((ProSolid)Mdl, UdfData, NULL, option, 1, &createdFeature);
+//	if (status == PRO_TK_NO_ERROR)
+//		isCreatedUDF = true;
+//	UDFGrpFeat = createdFeature;
+//
+//	status = ProTreetoolRefresh((ProSolid)Mdl);
+//
+//	return isCreatedUDF;
+//}
 
 bool LoadCurveUDF(ProMdl Mdl, string UDFFileName, vector<ProSelection>& UDFInputs, ProFeature& UDFGrpFeat, ProAsmcomppath* asmCompPath, ProBoolean RefAsm, double widthDimVal /*For Asm it is TRUE*/)
 {

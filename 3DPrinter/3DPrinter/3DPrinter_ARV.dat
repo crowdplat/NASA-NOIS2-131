@@ -1,0 +1,7 @@
+NAME PRINTER
+EXEC_FILE C:\Company Data\3D Printing\3DPrinter (28)\3DPrinter\3DPrinter\x64\Debug\3DPrinter.dll
+TEXT_DIR C:\Company Data\3D Printing\3DPrinter (28)\3DPrinter\text
+STARTUP dll
+allow_stop TRUE
+END
+
