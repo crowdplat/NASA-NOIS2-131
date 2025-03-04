@@ -1,0 +1,41 @@
+GeometryTool_Menu
+GeometryTool_Menu
+
+tag
+tag
+
+help
+help
+
+Tessellate
+Tessellate
+
+tool
+tool
+
+Enter the Node 1 name:
+Enter the Node 1 name:
+
+Enter the Node 2 name:
+Enter the Node 2 name:
+
+Enter the Node name:
+Enter the Node name:
+
+Please select the Side Plane
+Please select the Side Plane
+
+Please select the Front Plane
+Please select the Front Plane
+
+Please select the Direction surface
+Please select the Direction surface
+
+Please select the Top Plane
+Please select the Top Plane
+
+Please select the Placement surface
+Please select the Placement surface
+
+Please select the Right plane
+Please select the Right plane
