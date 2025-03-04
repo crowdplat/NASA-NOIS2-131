@@ -1,0 +1,7 @@
+NAME PRINTER
+EXEC_FILE C:\Users\MAHADEV\Desktop\3D_Printing\Package_240917\3DPrinter.dll
+TEXT_DIR  C:\Users\MAHADEV\Desktop\3D_Printing\Package_240917\text
+STARTUP dll
+allow_stop TRUE
+END
+
