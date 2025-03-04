@@ -1,0 +1,71 @@
+﻿  MODEL ACP10029662 :
+ 
+
+  3 CIRCULAR REFERENCE LOOPS FOUND
+ 
+
+   LOOP #  1
+
+   Depth of loop is 6
+
+Feature number 7 (ASSEMBLY CUT, id = 1107346417) 
+  in model BUT1613_FB refers to:
+
+Feature number 1732 (CUT, id = 34308) 
+  in model ACP10029662 must follow after:
+
+Feature number 1719 (PATTERN_10, id = 125215) 
+  in model ACP10029662 refers to:
+
+Feature number 559 (PATTERN, id = 133218) 
+  in model TCP10029662 must follow after:
+
+Feature number 375 (PATTERN_3, id = 592287) 
+  in model TCP10029662 refers to:
+
+Feature number 7 (ASSEMBLY CUT, id = 1107346417) 
+  in model BUT1613_FB - circle closed.
+
+
+   LOOP #  2
+
+   Depth of loop is 5
+
+Feature number 1732 (CUT, id = 34308) 
+  in model ACP10029662 must follow after:
+
+Feature number 1709 (COMPONENT, id = 118091) 
+  in model ACP10029662 refers to:
+
+Feature number 367 (SURFACE, id = 190883) 
+  in model TCP10029662 refers to:
+
+Feature number 39 (ASSEMBLY CUT, id = 1107336580) 
+  in model RT10029662 refers to:
+
+Feature number 1732 (CUT, id = 34308) 
+  in model ACP10029662 - circle closed.
+
+
+   LOOP #  3
+
+   Depth of loop is 6
+
+Feature number 1732 (CUT, id = 34308) 
+  in model ACP10029662 must follow after:
+
+Feature number 1719 (PATTERN_10, id = 125215) 
+  in model ACP10029662 refers to:
+
+Feature number 559 (PATTERN, id = 133218) 
+  in model TCP10029662 must follow after:
+
+Feature number 367 (SURFACE, id = 190883) 
+  in model TCP10029662 refers to:
+
+Feature number 39 (ASSEMBLY CUT, id = 1107336580) 
+  in model RT10029662 refers to:
+
+Feature number 1732 (CUT, id = 34308) 
+  in model ACP10029662 - circle closed.
+
